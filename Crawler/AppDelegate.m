@@ -7,8 +7,7 @@
 //
 
 #import "AppDelegate.h"
-
-#import "MasterViewController.h"
+#import "CrawlerMapViewController.h"
 
 @implementation AppDelegate
 
@@ -19,14 +18,9 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    // Override point for customization after application launch.
-    UISplitViewController *splitViewController = (UISplitViewController *)self.window.rootViewController;
-    UINavigationController *navigationController = [splitViewController.viewControllers lastObject];
-    splitViewController.delegate = (id)navigationController.topViewController;
+    CrawlerMapViewController *firstViewController = (CrawlerMapViewController*)self.window.rootViewController;
+    firstViewController.moc = self.managedObjectContext;
 
-    UINavigationController *masterNavigationController = [splitViewController.viewControllers objectAtIndex:0];
-    MasterViewController *controller = (MasterViewController *)masterNavigationController.topViewController;
-    controller.managedObjectContext = self.managedObjectContext;
     return YES;
 }
 							

@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		668A68FE15412C7C00FED6F9 /* CrawlerMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 668A68FD15412C7C00FED6F9 /* CrawlerMapViewController.m */; };
+		668A690315412FDB00FED6F9 /* Cell.m in Sources */ = {isa = PBXBuildFile; fileRef = 668A690215412FDB00FED6F9 /* Cell.m */; };
+		668A690615412FDB00FED6F9 /* World.m in Sources */ = {isa = PBXBuildFile; fileRef = 668A690515412FDB00FED6F9 /* World.m */; };
+		668A690915412FDB00FED6F9 /* Map.m in Sources */ = {isa = PBXBuildFile; fileRef = 668A690815412FDB00FED6F9 /* Map.m */; };
+		668A691A1541852200FED6F9 /* Crawler.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 668A69181541852200FED6F9 /* Crawler.xcdatamodeld */; };
 		66CF662E1540B674007C39E5 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66CF662D1540B674007C39E5 /* UIKit.framework */; };
 		66CF66301540B674007C39E5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66CF662F1540B674007C39E5 /* Foundation.framework */; };
 		66CF66321540B674007C39E5 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66CF66311540B674007C39E5 /* CoreGraphics.framework */; };
@@ -15,29 +20,34 @@
 		66CF663C1540B674007C39E5 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 66CF663B1540B674007C39E5 /* main.m */; };
 		66CF66401540B674007C39E5 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 66CF663F1540B674007C39E5 /* AppDelegate.m */; };
 		66CF66431540B675007C39E5 /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 66CF66411540B675007C39E5 /* MainStoryboard.storyboard */; };
-		66CF66461540B675007C39E5 /* Crawler.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 66CF66441540B675007C39E5 /* Crawler.xcdatamodeld */; };
-		66CF66491540B675007C39E5 /* MasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66CF66481540B675007C39E5 /* MasterViewController.m */; };
-		66CF664C1540B675007C39E5 /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66CF664B1540B675007C39E5 /* DetailViewController.m */; };
+		66CF66541540D655007C39E5 /* CrawlerMapView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66CF66531540D655007C39E5 /* CrawlerMapView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		668A68FC15412C7C00FED6F9 /* CrawlerMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CrawlerMapViewController.h; path = Mapping/CrawlerMapViewController.h; sourceTree = "<group>"; };
+		668A68FD15412C7C00FED6F9 /* CrawlerMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CrawlerMapViewController.m; path = Mapping/CrawlerMapViewController.m; sourceTree = "<group>"; };
+		668A690115412FDB00FED6F9 /* Cell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Cell.h; path = "Core Data/Cell.h"; sourceTree = "<group>"; };
+		668A690215412FDB00FED6F9 /* Cell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Cell.m; path = "Core Data/Cell.m"; sourceTree = "<group>"; };
+		668A690415412FDB00FED6F9 /* World.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = World.h; path = "Core Data/World.h"; sourceTree = "<group>"; };
+		668A690515412FDB00FED6F9 /* World.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = World.m; path = "Core Data/World.m"; sourceTree = "<group>"; };
+		668A690715412FDB00FED6F9 /* Map.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Map.h; path = "Core Data/Map.h"; sourceTree = "<group>"; };
+		668A690815412FDB00FED6F9 /* Map.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Map.m; path = "Core Data/Map.m"; sourceTree = "<group>"; };
+		668A690A15412FF100FED6F9 /* DataModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = DataModel.h; path = "Core Data/DataModel.h"; sourceTree = "<group>"; };
+		668A69191541852200FED6F9 /* Crawler.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Crawler.xcdatamodel; sourceTree = "<group>"; };
 		66CF66291540B674007C39E5 /* Crawler.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Crawler.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		66CF662D1540B674007C39E5 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		66CF662F1540B674007C39E5 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		66CF66311540B674007C39E5 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		66CF66331540B674007C39E5 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
-		66CF66371540B674007C39E5 /* Crawler-Info.plist */ = {isa = PBXFileReference; path = "Crawler-Info.plist"; sourceTree = "<group>"; };
+		66CF66371540B674007C39E5 /* Crawler-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Crawler-Info.plist"; sourceTree = "<group>"; };
 		66CF66391540B674007C39E5 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		66CF663B1540B674007C39E5 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		66CF663D1540B674007C39E5 /* Crawler-Prefix.pch */ = {isa = PBXFileReference; path = "Crawler-Prefix.pch"; sourceTree = "<group>"; };
-		66CF663E1540B674007C39E5 /* AppDelegate.h */ = {isa = PBXFileReference; path = AppDelegate.h; sourceTree = "<group>"; };
+		66CF663D1540B674007C39E5 /* Crawler-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Crawler-Prefix.pch"; sourceTree = "<group>"; };
+		66CF663E1540B674007C39E5 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		66CF663F1540B674007C39E5 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		66CF66421540B675007C39E5 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
-		66CF66451540B675007C39E5 /* Crawler.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Crawler.xcdatamodel; sourceTree = "<group>"; };
-		66CF66471540B675007C39E5 /* MasterViewController.h */ = {isa = PBXFileReference; path = MasterViewController.h; sourceTree = "<group>"; };
-		66CF66481540B675007C39E5 /* MasterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MasterViewController.m; sourceTree = "<group>"; };
-		66CF664A1540B675007C39E5 /* DetailViewController.h */ = {isa = PBXFileReference; path = DetailViewController.h; sourceTree = "<group>"; };
-		66CF664B1540B675007C39E5 /* DetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
+		66CF66521540D655007C39E5 /* CrawlerMapView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CrawlerMapView.h; path = Mapping/CrawlerMapView.h; sourceTree = "<group>"; };
+		66CF66531540D655007C39E5 /* CrawlerMapView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CrawlerMapView.m; path = Mapping/CrawlerMapView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,6 +65,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		668A690015412FBC00FED6F9 /* Core Data */ = {
+			isa = PBXGroup;
+			children = (
+				668A69181541852200FED6F9 /* Crawler.xcdatamodeld */,
+				668A690715412FDB00FED6F9 /* Map.h */,
+				668A690815412FDB00FED6F9 /* Map.m */,
+				668A690415412FDB00FED6F9 /* World.h */,
+				668A690515412FDB00FED6F9 /* World.m */,
+				668A690115412FDB00FED6F9 /* Cell.h */,
+				668A690215412FDB00FED6F9 /* Cell.m */,
+				668A690A15412FF100FED6F9 /* DataModel.h */,
+			);
+			name = "Core Data";
+			sourceTree = "<group>";
+		};
 		66CF661E1540B674007C39E5 = {
 			isa = PBXGroup;
 			children = (
@@ -86,14 +111,11 @@
 		66CF66351540B674007C39E5 /* Crawler */ = {
 			isa = PBXGroup;
 			children = (
+				66CF66411540B675007C39E5 /* MainStoryboard.storyboard */,
+				668A690015412FBC00FED6F9 /* Core Data */,
+				66CF66551540D65A007C39E5 /* Mapping */,
 				66CF663E1540B674007C39E5 /* AppDelegate.h */,
 				66CF663F1540B674007C39E5 /* AppDelegate.m */,
-				66CF66411540B675007C39E5 /* MainStoryboard.storyboard */,
-				66CF66471540B675007C39E5 /* MasterViewController.h */,
-				66CF66481540B675007C39E5 /* MasterViewController.m */,
-				66CF664A1540B675007C39E5 /* DetailViewController.h */,
-				66CF664B1540B675007C39E5 /* DetailViewController.m */,
-				66CF66441540B675007C39E5 /* Crawler.xcdatamodeld */,
 				66CF66361540B674007C39E5 /* Supporting Files */,
 			);
 			path = Crawler;
@@ -108,6 +130,17 @@
 				66CF663D1540B674007C39E5 /* Crawler-Prefix.pch */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		66CF66551540D65A007C39E5 /* Mapping */ = {
+			isa = PBXGroup;
+			children = (
+				66CF66521540D655007C39E5 /* CrawlerMapView.h */,
+				66CF66531540D655007C39E5 /* CrawlerMapView.m */,
+				668A68FC15412C7C00FED6F9 /* CrawlerMapViewController.h */,
+				668A68FD15412C7C00FED6F9 /* CrawlerMapViewController.m */,
+			);
+			name = Mapping;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -175,9 +208,12 @@
 			files = (
 				66CF663C1540B674007C39E5 /* main.m in Sources */,
 				66CF66401540B674007C39E5 /* AppDelegate.m in Sources */,
-				66CF66461540B675007C39E5 /* Crawler.xcdatamodeld in Sources */,
-				66CF66491540B675007C39E5 /* MasterViewController.m in Sources */,
-				66CF664C1540B675007C39E5 /* DetailViewController.m in Sources */,
+				66CF66541540D655007C39E5 /* CrawlerMapView.m in Sources */,
+				668A68FE15412C7C00FED6F9 /* CrawlerMapViewController.m in Sources */,
+				668A690315412FDB00FED6F9 /* Cell.m in Sources */,
+				668A690615412FDB00FED6F9 /* World.m in Sources */,
+				668A690915412FDB00FED6F9 /* Map.m in Sources */,
+				668A691A1541852200FED6F9 /* Crawler.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -291,17 +327,19 @@
 				66CF66511540B675007C39E5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		66CF66441540B675007C39E5 /* Crawler.xcdatamodeld */ = {
+		668A69181541852200FED6F9 /* Crawler.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				66CF66451540B675007C39E5 /* Crawler.xcdatamodel */,
+				668A69191541852200FED6F9 /* Crawler.xcdatamodel */,
 			);
-			currentVersion = 66CF66451540B675007C39E5 /* Crawler.xcdatamodel */;
-			path = Crawler.xcdatamodeld;
+			currentVersion = 668A69191541852200FED6F9 /* Crawler.xcdatamodel */;
+			name = Crawler.xcdatamodeld;
+			path = "Core Data/Crawler.xcdatamodeld";
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};

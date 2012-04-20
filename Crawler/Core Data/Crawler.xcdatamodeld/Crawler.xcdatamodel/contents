@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1171" systemVersion="11D50b" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="Cell" representedClassName="Cell">
+        <attribute name="exitEast" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="exitNorth" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="exitSouth" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="exitWest" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="items" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="population" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="tag" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <relationship name="map" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Map" inverseName="cells" inverseEntity="Map" syncable="YES"/>
+    </entity>
+    <entity name="Map" representedClassName="Map" syncable="YES">
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="cells" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Cell" inverseName="map" inverseEntity="Cell" syncable="YES"/>
+        <relationship name="world" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="World" inverseName="maps" inverseEntity="World" syncable="YES"/>
+    </entity>
+    <entity name="World" representedClassName="World" syncable="YES">
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="maps" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Map" inverseName="world" inverseEntity="Map" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="Cell" positionX="502" positionY="144" width="146" height="165"/>
+        <element name="Map" positionX="216" positionY="144" width="144" height="90"/>
+        <element name="World" positionX="-56" positionY="147" width="128" height="75"/>
+    </elements>
+</model>
