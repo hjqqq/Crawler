@@ -7,9 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-
-#define kMapCellsHorizontal   (25)
-#define kMapCellsVertical     (25)
+#import "CrawlerMapViewDelegate.h"
+#import "DataModel.h"
 
 #define kKeyCellTag           (@"kKeyCellTag")
 #define kKeyCellState         (@"kKeyCellState")
@@ -49,12 +48,18 @@ typedef enum _CellState {
 
 @interface CrawlerMapView : UIView {
 
-    NSMutableArray *cellsArray;
+    IBOutlet id<CrawlerMapViewDelegate> delegate;
+    NSArray *cellsArray;
     CGFloat cellWidth;
     CGFloat cellHeight;
     int totalCells;
 }
 
 - (IBAction)mapTap:(UITapGestureRecognizer *)recognizer;
+
+#pragma -
+#pragma public methods
+- (void)mapForDisplay:(Map *)map;
+- (void)updateCellWithTag:(int)tag;
 
 @end

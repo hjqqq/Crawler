@@ -7,5 +7,7 @@
 //
 
 #import "Map.h"
+#import "Map+helper.h"
 #import "World.h"
 #import "Cell.h"
+#import "Cell+helper.h"

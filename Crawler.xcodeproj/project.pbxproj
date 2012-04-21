@@ -8,10 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		668A68FE15412C7C00FED6F9 /* CrawlerMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 668A68FD15412C7C00FED6F9 /* CrawlerMapViewController.m */; };
-		668A690315412FDB00FED6F9 /* Cell.m in Sources */ = {isa = PBXBuildFile; fileRef = 668A690215412FDB00FED6F9 /* Cell.m */; };
 		668A690615412FDB00FED6F9 /* World.m in Sources */ = {isa = PBXBuildFile; fileRef = 668A690515412FDB00FED6F9 /* World.m */; };
 		668A690915412FDB00FED6F9 /* Map.m in Sources */ = {isa = PBXBuildFile; fileRef = 668A690815412FDB00FED6F9 /* Map.m */; };
 		668A691A1541852200FED6F9 /* Crawler.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 668A69181541852200FED6F9 /* Crawler.xcdatamodeld */; };
+		668A6921154255AC00FED6F9 /* Cell.m in Sources */ = {isa = PBXBuildFile; fileRef = 668A6920154255AC00FED6F9 /* Cell.m */; };
+		668A69241542560F00FED6F9 /* Cell+helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 668A69231542560F00FED6F9 /* Cell+helper.m */; };
+		668A69271542588900FED6F9 /* Map+helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 668A69261542588900FED6F9 /* Map+helper.m */; };
 		66CF662E1540B674007C39E5 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66CF662D1540B674007C39E5 /* UIKit.framework */; };
 		66CF66301540B674007C39E5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66CF662F1540B674007C39E5 /* Foundation.framework */; };
 		66CF66321540B674007C39E5 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66CF66311540B674007C39E5 /* CoreGraphics.framework */; };
@@ -26,14 +28,19 @@
 /* Begin PBXFileReference section */
 		668A68FC15412C7C00FED6F9 /* CrawlerMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CrawlerMapViewController.h; path = Mapping/CrawlerMapViewController.h; sourceTree = "<group>"; };
 		668A68FD15412C7C00FED6F9 /* CrawlerMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CrawlerMapViewController.m; path = Mapping/CrawlerMapViewController.m; sourceTree = "<group>"; };
-		668A690115412FDB00FED6F9 /* Cell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Cell.h; path = "Core Data/Cell.h"; sourceTree = "<group>"; };
-		668A690215412FDB00FED6F9 /* Cell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Cell.m; path = "Core Data/Cell.m"; sourceTree = "<group>"; };
 		668A690415412FDB00FED6F9 /* World.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = World.h; path = "Core Data/World.h"; sourceTree = "<group>"; };
 		668A690515412FDB00FED6F9 /* World.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = World.m; path = "Core Data/World.m"; sourceTree = "<group>"; };
 		668A690715412FDB00FED6F9 /* Map.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Map.h; path = "Core Data/Map.h"; sourceTree = "<group>"; };
 		668A690815412FDB00FED6F9 /* Map.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Map.m; path = "Core Data/Map.m"; sourceTree = "<group>"; };
 		668A690A15412FF100FED6F9 /* DataModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = DataModel.h; path = "Core Data/DataModel.h"; sourceTree = "<group>"; };
 		668A69191541852200FED6F9 /* Crawler.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Crawler.xcdatamodel; sourceTree = "<group>"; };
+		668A691B154187E700FED6F9 /* CrawlerMapViewDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CrawlerMapViewDelegate.h; sourceTree = "<group>"; };
+		668A691F154255AC00FED6F9 /* Cell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Cell.h; path = "Core Data/Cell.h"; sourceTree = "<group>"; };
+		668A6920154255AC00FED6F9 /* Cell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Cell.m; path = "Core Data/Cell.m"; sourceTree = "<group>"; };
+		668A69221542560F00FED6F9 /* Cell+helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "Cell+helper.h"; path = "Core Data/Cell+helper.h"; sourceTree = "<group>"; };
+		668A69231542560F00FED6F9 /* Cell+helper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "Cell+helper.m"; path = "Core Data/Cell+helper.m"; sourceTree = "<group>"; };
+		668A69251542588900FED6F9 /* Map+helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "Map+helper.h"; path = "Core Data/Map+helper.h"; sourceTree = "<group>"; };
+		668A69261542588900FED6F9 /* Map+helper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "Map+helper.m"; path = "Core Data/Map+helper.m"; sourceTree = "<group>"; };
 		66CF66291540B674007C39E5 /* Crawler.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Crawler.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		66CF662D1540B674007C39E5 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		66CF662F1540B674007C39E5 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -69,13 +76,17 @@
 			isa = PBXGroup;
 			children = (
 				668A69181541852200FED6F9 /* Crawler.xcdatamodeld */,
+				668A691F154255AC00FED6F9 /* Cell.h */,
+				668A6920154255AC00FED6F9 /* Cell.m */,
 				668A690715412FDB00FED6F9 /* Map.h */,
+				668A69251542588900FED6F9 /* Map+helper.h */,
+				668A69261542588900FED6F9 /* Map+helper.m */,
 				668A690815412FDB00FED6F9 /* Map.m */,
 				668A690415412FDB00FED6F9 /* World.h */,
 				668A690515412FDB00FED6F9 /* World.m */,
-				668A690115412FDB00FED6F9 /* Cell.h */,
-				668A690215412FDB00FED6F9 /* Cell.m */,
 				668A690A15412FF100FED6F9 /* DataModel.h */,
+				668A69221542560F00FED6F9 /* Cell+helper.h */,
+				668A69231542560F00FED6F9 /* Cell+helper.m */,
 			);
 			name = "Core Data";
 			sourceTree = "<group>";
@@ -137,6 +148,7 @@
 			children = (
 				66CF66521540D655007C39E5 /* CrawlerMapView.h */,
 				66CF66531540D655007C39E5 /* CrawlerMapView.m */,
+				668A691B154187E700FED6F9 /* CrawlerMapViewDelegate.h */,
 				668A68FC15412C7C00FED6F9 /* CrawlerMapViewController.h */,
 				668A68FD15412C7C00FED6F9 /* CrawlerMapViewController.m */,
 			);
@@ -210,10 +222,12 @@
 				66CF66401540B674007C39E5 /* AppDelegate.m in Sources */,
 				66CF66541540D655007C39E5 /* CrawlerMapView.m in Sources */,
 				668A68FE15412C7C00FED6F9 /* CrawlerMapViewController.m in Sources */,
-				668A690315412FDB00FED6F9 /* Cell.m in Sources */,
 				668A690615412FDB00FED6F9 /* World.m in Sources */,
 				668A690915412FDB00FED6F9 /* Map.m in Sources */,
 				668A691A1541852200FED6F9 /* Crawler.xcdatamodeld in Sources */,
+				668A6921154255AC00FED6F9 /* Cell.m in Sources */,
+				668A69241542560F00FED6F9 /* Cell+helper.m in Sources */,
+				668A69271542588900FED6F9 /* Map+helper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

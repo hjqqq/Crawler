@@ -6,6 +6,7 @@
         <attribute name="exitSouth" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="exitWest" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="items" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="meta" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="population" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="tag" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <relationship name="map" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Map" inverseName="cells" inverseEntity="Map" syncable="YES"/>
@@ -20,7 +21,7 @@
         <relationship name="maps" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Map" inverseName="world" inverseEntity="Map" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Cell" positionX="502" positionY="144" width="146" height="165"/>
+        <element name="Cell" positionX="502" positionY="144" width="146" height="180"/>
         <element name="Map" positionX="216" positionY="144" width="144" height="90"/>
         <element name="World" positionX="-56" positionY="147" width="128" height="75"/>
     </elements>

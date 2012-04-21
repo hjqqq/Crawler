@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "DataModel.h"
+#import "CrawlerMapView.h"
+#import "CrawlerMapViewDelegate.h"
 
 typedef enum _AnimateInFrom {
     kDirectionTop,
@@ -16,7 +18,7 @@ typedef enum _AnimateInFrom {
     kDirectionBottom
 } AnimateInFrom;
 
-@interface CrawlerMapViewController : UIViewController <UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate> {
+@interface CrawlerMapViewController : UIViewController <UIPickerViewDataSource, UIPickerViewDelegate, CrawlerMapViewDelegate> {
     
     Map *currentMap;
     World *currentWorld;
@@ -25,6 +27,9 @@ typedef enum _AnimateInFrom {
     NSArray *mapArray;
     
     NSManagedObject *newObject;
+    
+    // the view that displays the current map
+    __weak IBOutlet CrawlerMapView *mapView;
     
     // display titles above the map view
     __weak IBOutlet UILabel *currentWorldLabel;

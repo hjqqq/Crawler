@@ -7,16 +7,31 @@
 //
 
 #import "CrawlerMapView.h"
+#import "DataModel.h"
+
+@interface CrawlerMapView (private)
+- (CGRect)rectForTag:(int)tag;
+- (void)mapForDisplay:(Map *)map;
+@end
 
 @implementation CrawlerMapView
 
 #pragma -
 #pragma Public methods, i.e. update display
 
-- (void)setCellState:(CellState)state forTag:(int)tag {
+- (void)mapForDisplay:(Map *)map {
     
-    NSMutableDictionary *cellDict = [cellsArray objectAtIndex:tag];
-    [cellDict setObject:[NSNumber numberWithInt:state] forKey:kKeyCellState];
+    if(map == nil) {
+        cellsArray = nil;
+    } else {
+        cellsArray = [map.cells allObjects];
+    }
+    [self setNeedsDisplay];
+}
+
+- (void)updateCellWithTag:(int)tag {
+    CGRect cellRect = [self rectForTag:tag];
+    [self setNeedsDisplayInRect:cellRect];
 }
 
 // this view created from storyboard
@@ -27,24 +42,6 @@
         cellWidth = self.frame.size.width / kMapCellsHorizontal;
         cellHeight = self.frame.size.height / kMapCellsVertical;
         totalCells = kMapCellsHorizontal * kMapCellsVertical;
-        int tag = 0;
-        
-        cellsArray = [NSMutableArray arrayWithCapacity:totalCells];
-        
-        // create the Cells on the map
-        for(int y = 0; y < kMapCellsVertical; y++) {
-            for(int x = 0; x < kMapCellsHorizontal; x++) {
-                NSMutableDictionary *cellDict = [NSMutableDictionary dictionaryWithObject:[NSNumber numberWithInt:tag]
-                                                                                   forKey:kKeyCellTag];
-                [cellsArray addObject:cellDict];
-                
-                if((arc4random() % 8) > 3) {
-                    [self setCellState:kCellStateOpen forTag:tag];
-                }
-                
-                tag++;
-            }
-        }
     }
     return self;
 }
@@ -53,38 +50,47 @@
 {    
     CGContextRef ctx = UIGraphicsGetCurrentContext();
 
-    // the view is divided into Cells with each Cell having dimension of (frame.size.width / kMapCellsHorizontal)
-    // and frame.size.height / kMapCellsVertical. There maye be some view left over which doesn't matter. Cells 
-    // in state open are drawn in one color, Cells in state closed are in another.
-    int tag = 0;
-    int open, closed;
-    open = closed = 0;
-    for(int y = 0; y < kMapCellsVertical; y++) {
-        for(int x = 0; x < kMapCellsHorizontal; x++) {
+    if(cellsArray == nil) {
+        [[UIColor grayColor] setFill];
+        CGContextFillRect(ctx, self.bounds);
+    } else {
         
-            NSMutableDictionary *cellDict = [cellsArray objectAtIndex:tag];
-            CellState state = [[cellDict objectForKey:kKeyCellState] intValue];
-            
-            if(state == kCellStateClosed) {
-                [[UIColor blueColor] setFill];
-                closed++;
-            } else if(state == kCellStateOpen) {
-                [[UIColor yellowColor] setFill];
-                open++;
-            }
-            CGFloat xOrigin = cellWidth * x;
-            CGFloat yOrigin = cellHeight * y;
-            
-            CGContextFillRect(ctx, CGRectMake(xOrigin, yOrigin, cellWidth, cellHeight));
-            
-            tag++;
-        }  
-        CGContextFlush(ctx);
+        // the view is divided into Cells with each Cell having dimension of (frame.size.width / kMapCellsHorizontal)
+        // and frame.size.height / kMapCellsVertical. There may be some view left over which doesn't matter.
+        int tag = 0;
+
+        for(int y = 0; y < kMapCellsVertical; y++) {
+            for(int x = 0; x < kMapCellsHorizontal; x++) {
+        
+                Cell *cell = [cellsArray objectAtIndex:tag];
+                if([cell.meta intValue] & kCellMetaIsOpen) {
+                    [[UIColor blueColor] setFill];
+                } else {
+                    [[UIColor yellowColor] setFill];
+                }
+                CGFloat xOrigin = cellWidth * x;
+                CGFloat yOrigin = cellHeight * y;
+                
+                CGContextFillRect(ctx, CGRectMake(xOrigin, yOrigin, cellWidth, cellHeight));
+                
+                tag++;
+            }  
+            CGContextFlush(ctx);
+        }
     }
 }
 
 #pragma -
 #pragma Touch handling
+
+// given a tag, what rect does the cell identified occupy?
+- (CGRect)rectForTag:(int)tag {
+    
+    int x = (tag % kMapCellsHorizontal) * cellWidth;
+    int y = (tag / kMapCellsHorizontal) * cellHeight;
+    return CGRectMake(x, y, cellWidth, cellHeight);
+    
+}
 
 // given a touch at a certain coordinate, return the tag for the Cell this touch relates to
 - (int)tagForCoordinate:(CGPoint)point {
@@ -98,8 +104,10 @@
 
 - (IBAction)mapTap:(UITapGestureRecognizer *)recognizer {
     
+    if(cellsArray == nil)
+        return;
     CGPoint tapCoordinate = [recognizer locationInView:self];
-    NSLog(@"Tap on tag %d", [self tagForCoordinate:tapCoordinate]);
+    [delegate selectedCellTagged:[self tagForCoordinate:tapCoordinate]];
 }
 
 @end

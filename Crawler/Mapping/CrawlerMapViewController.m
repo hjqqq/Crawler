@@ -44,6 +44,7 @@
     nameLabel = nil;
     currentWorldLabel = nil;
     currentMapLabel = nil;
+    mapView = nil;
     [super viewDidUnload];
     // Release any retained subviews of the main view.
 }
@@ -51,6 +52,26 @@
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
+#pragma -
+#pragma CrawlerMapViewDelegate
+
+- (void)selectedCellTagged:(int)tag {
+    
+    NSError *error;
+    NSArray *cellsArray = [currentMap.cells allObjects];
+    Cell *cell = [cellsArray objectAtIndex:tag];
+    uint64_t meta = [cell.meta unsignedLongValue];
+    
+    if(meta & kCellMetaIsOpen) {
+        meta &= ~kCellMetaIsOpen;
+    } else {
+        meta |= kCellMetaIsOpen;
+    }
+    cell.meta = [NSNumber numberWithUnsignedLong:meta];
+    [_moc save:&error];
+    [mapView updateCellWithTag:tag];
 }
 
 #pragma - 
@@ -176,9 +197,11 @@
     
     if(map == nil) {
         currentMapLabel.text = nil;
+        [mapView mapForDisplay:nil];
     } else {
         currentMap = map;
         currentMapLabel.text = map.name;
+        [mapView mapForDisplay:map];
     }
 }
 
@@ -232,10 +255,17 @@
         if([newObject isKindOfClass:[Map class]]) {
             Map *map = (Map *)newObject;
             map.name = nameTextField.text;
+            // attach map to current world
             map.world = currentWorld;
+            // create cells in the map and add them
+            int cellCount = kMapCellsHorizontal * kMapCellsVertical;
+            for(int i = 0; i < cellCount; i++) {
+                [Cell newClosedCellInMap:map withMoc:_moc];
+            }
             [_moc save:&error];
             [self switchToMap:map];
         } else if([newObject isKindOfClass:[World class]]){
+            // new world is simple to create, no attaching maps or anything because it is the root object
             World *world = (World *)newObject;
             world.name = nameTextField.text;
             [_moc save:&error];

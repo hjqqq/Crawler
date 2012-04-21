@@ -21,6 +21,7 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                 <gestureRecognizers/>
                                 <connections>
+                                    <outlet property="delegate" destination="2ee-6Q-uCV" id="4US-qC-Ob1"/>
                                     <outletCollection property="gestureRecognizers" destination="sY5-22-F4v" appends="YES" id="QSl-zo-Au5"/>
                                 </connections>
                             </view>
@@ -205,6 +206,7 @@
                         <outlet property="currentWorldLabel" destination="w0v-td-wgL" id="Ued-0i-crG"/>
                         <outlet property="mapButton" destination="QBu-aq-vYO" id="7Hc-g1-Xzl"/>
                         <outlet property="mapPicker" destination="kjd-OZ-8c9" id="UI5-C8-WJn"/>
+                        <outlet property="mapView" destination="tnb-s0-Rz2" id="GiM-io-nSt"/>
                         <outlet property="nameLabel" destination="AP0-9Q-Uka" id="Lrw-kX-OP8"/>
                         <outlet property="nameRequester" destination="0QJ-h8-La0" id="Tiy-lb-c2m"/>
                         <outlet property="nameTextField" destination="119-0Z-EIH" id="X4z-Wh-JcV"/>
@@ -227,6 +229,7 @@
             <source key="sourceIdentifier" type="project" relativePath="./Classes/CrawlerMapView.h"/>
             <relationships>
                 <relationship kind="action" name="mapTap:" candidateClass="UITapGestureRecognizer"/>
+                <relationship kind="outlet" name="delegate"/>
             </relationships>
         </class>
         <class className="CrawlerMapViewController" superclassName="UIViewController">
@@ -242,6 +245,7 @@
                 <relationship kind="outlet" name="currentWorldLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="mapButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="mapPicker" candidateClass="UIPickerView"/>
+                <relationship kind="outlet" name="mapView" candidateClass="CrawlerMapView"/>
                 <relationship kind="outlet" name="nameLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="nameRequester" candidateClass="UIView"/>
                 <relationship kind="outlet" name="nameTextField" candidateClass="UITextField"/>
