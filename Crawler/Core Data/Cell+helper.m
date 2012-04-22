@@ -10,9 +10,10 @@
 
 @implementation Cell (helper)
 
-+ (void)newClosedCellInMap:(Map *)map withMoc:(NSManagedObjectContext *)moc {
++ (void)newClosedCellInMap:(Map *)map tagged:(int)tag withMoc:(NSManagedObjectContext *)moc {
     Cell *cell = [NSEntityDescription insertNewObjectForEntityForName:@"Cell" inManagedObjectContext:moc];
     cell.map = map;
+    cell.tag = [NSNumber numberWithInt:tag];
     cell.meta = [NSNumber numberWithInt:kCellMetaEmptyUnused];
 }
 @end

@@ -30,6 +30,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [mapView detailMode:detailModeSwitch.on];
 
 }
 
@@ -45,6 +46,7 @@
     currentWorldLabel = nil;
     currentMapLabel = nil;
     mapView = nil;
+    detailModeSwitch = nil;
     [super viewDidUnload];
     // Release any retained subviews of the main view.
 }
@@ -60,18 +62,30 @@
 - (void)selectedCellTagged:(int)tag {
     
     NSError *error;
-    NSArray *cellsArray = [currentMap.cells allObjects];
+    NSArray *cellsArray = [currentMap allCellsOrderedByTag];
     Cell *cell = [cellsArray objectAtIndex:tag];
-    uint64_t meta = [cell.meta unsignedLongValue];
     
-    if(meta & kCellMetaIsOpen) {
-        meta &= ~kCellMetaIsOpen;
+    if(detailModeSwitch.on == NO) {
+        
+        uint64_t meta = [cell.meta unsignedLongValue];
+        
+        if(meta & kCellMetaIsOpen) {
+            meta &= ~kCellMetaIsOpen;
+        } else {
+            meta |= kCellMetaIsOpen;
+        }
+        cell.meta = [NSNumber numberWithUnsignedLong:meta];
+        [_moc save:&error];
+        [mapView updateCellWithTag:tag];
+        
     } else {
-        meta |= kCellMetaIsOpen;
+        
+        // in detail mode, map view needs to highlight selected cell
+        [mapView detailHighlightCellWithTag:tag];
+        
+        // edit windows need to be updated with current cell status
+        NSLog(@"Selecting cell tagged %d for detail editing", tag);
     }
-    cell.meta = [NSNumber numberWithUnsignedLong:meta];
-    [_moc save:&error];
-    [mapView updateCellWithTag:tag];
 }
 
 #pragma - 
@@ -260,7 +274,8 @@
             // create cells in the map and add them
             int cellCount = kMapCellsHorizontal * kMapCellsVertical;
             for(int i = 0; i < cellCount; i++) {
-                [Cell newClosedCellInMap:map withMoc:_moc];
+                [Cell newClosedCellInMap:map tagged:i withMoc:_moc];
+                
             }
             [_moc save:&error];
             [self switchToMap:map];
@@ -292,6 +307,11 @@
     [self hideView:nameRequester toDirection:kDirectionLeft];
 }
 
+- (IBAction)saveMap:(UIButton *)sender {
+    NSError *error;
+    [_moc save:&error];
+}
+
 // choose a world from the picker, or define a new one
 - (IBAction)loadWorld:(UIButton *)sender {
     [self showView:worldPicker fromDirection:kDirectionTop];
@@ -318,6 +338,7 @@
 // set a name for the map
 // (cannot match any other name in this world)
 - (IBAction)nameMap:(UIButton *)sender {
+    nameTextField.text = currentMap.name;
     [self showView:nameRequester fromDirection:kDirectionLeft];
     [nameRequester becomeFirstResponder];
 }
@@ -327,4 +348,7 @@
     [self refreshPickers];
 }
 
+- (IBAction)detailModeSwitch:(UISwitch *)sender {
+    [mapView detailMode:detailModeSwitch.on];
+}
 @end

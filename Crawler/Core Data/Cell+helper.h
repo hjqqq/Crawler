@@ -15,6 +15,6 @@
 
 @interface Cell (helper)
 
-+ (void)newClosedCellInMap:(Map *)map withMoc:(NSManagedObjectContext *)moc;
++ (void)newClosedCellInMap:(Map *)map tagged:(int)tag withMoc:(NSManagedObjectContext *)moc;
 
 @end

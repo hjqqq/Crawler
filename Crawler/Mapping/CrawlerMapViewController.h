@@ -28,6 +28,9 @@ typedef enum _AnimateInFrom {
     
     NSManagedObject *newObject;
     
+    // coarse/fine edit mode, enable/disable cells or set their detail
+    __weak IBOutlet UISwitch *detailModeSwitch;
+    
     // the view that displays the current map
     __weak IBOutlet CrawlerMapView *mapView;
     
@@ -49,6 +52,7 @@ typedef enum _AnimateInFrom {
     __weak IBOutlet UIPickerView *worldPicker;
     __weak IBOutlet UIPickerView *mapPicker;
 }
+- (IBAction)detailModeSwitch:(UISwitch *)sender;
 
 // accept a name change or create operation
 - (IBAction)saveName:(UIButton *)sender;
@@ -59,6 +63,8 @@ typedef enum _AnimateInFrom {
 - (IBAction)loadWorld:(UIButton *)sender;
 // choose a map from storage (or create one)
 - (IBAction)loadMap:(UIButton *)sender;
+// save all edits
+- (IBAction)saveMap:(UIButton *)sender;
 // change the name of a map
 - (IBAction)nameMap:(UIButton *)sender;
 // discard this map and all its cells

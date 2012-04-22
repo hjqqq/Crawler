@@ -13,5 +13,6 @@
 
 @interface Map (helper)
 
+- (NSArray *)allCellsOrderedByTag;
 
 @end

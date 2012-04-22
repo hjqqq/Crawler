@@ -24,14 +24,26 @@
     if(map == nil) {
         cellsArray = nil;
     } else {
-        cellsArray = [map.cells allObjects];
+        cellsArray = [map allCellsOrderedByTag];
     }
     [self setNeedsDisplay];
 }
 
 - (void)updateCellWithTag:(int)tag {
-    CGRect cellRect = [self rectForTag:tag];
-    [self setNeedsDisplayInRect:cellRect];
+    // keep the highlight following the last tapped cell for when we go back to detail mode
+    highlightTag = tag;
+    [self setNeedsDisplayInRect:[self rectForTag:tag]];
+}
+
+- (void)detailMode:(BOOL)state {
+
+    displayHighlightTag = state;
+    [self setNeedsDisplay];
+}
+
+- (void)detailHighlightCellWithTag:(int)tag {
+    highlightTag = tag;
+    [self setNeedsDisplay];
 }
 
 // this view created from storyboard
@@ -39,9 +51,10 @@
 {
     if ((self = [super initWithCoder:aDecoder])) {
     
-        cellWidth = self.frame.size.width / kMapCellsHorizontal;
-        cellHeight = self.frame.size.height / kMapCellsVertical;
+        cellWidth = floorf(self.frame.size.width / kMapCellsHorizontal);
+        cellHeight = floorf(self.frame.size.height / kMapCellsVertical);
         totalCells = kMapCellsHorizontal * kMapCellsVertical;
+        highlightTagDirection = kCellDirectionNorth;
     }
     return self;
 }
@@ -77,6 +90,13 @@
             }  
             CGContextFlush(ctx);
         }
+        
+        if(displayHighlightTag) {
+            // detail highlight is a border for the cell currently being edited with an arrow indicating view direction
+            CGRect highlightRect = [self rectForTag:highlightTag];
+            [[UIColor redColor] setStroke];
+            CGContextStrokeRectWithWidth(ctx, highlightRect, 2.f);
+        }
     }
 }
 
@@ -107,6 +127,11 @@
     if(cellsArray == nil)
         return;
     CGPoint tapCoordinate = [recognizer locationInView:self];
+    
+    // In a map that takes less space than the view a tap could occcur outside the cells. 
+    if((tapCoordinate.y > (kMapCellsVertical * cellHeight)) || (tapCoordinate.x > (kMapCellsHorizontal * cellWidth)))
+        return;
+    
     [delegate selectedCellTagged:[self tagForCoordinate:tapCoordinate]];
 }
 
