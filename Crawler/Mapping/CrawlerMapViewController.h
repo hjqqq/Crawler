@@ -3,13 +3,14 @@
 //  Crawler
 //
 //  Created by Adam Eberbach on 20/04/12.
-//  Copyright (c) 2012 Tickbox. All rights reserved.
+//  Copyright (c) 2012 Adam Eberbach. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 #import "DataModel.h"
 #import "CrawlerMapView.h"
 #import "CrawlerMapViewDelegate.h"
+#import <GLKit/GLKit.h>
 
 typedef enum _AnimateInFrom {
     kDirectionTop,
@@ -18,7 +19,19 @@ typedef enum _AnimateInFrom {
     kDirectionBottom
 } AnimateInFrom;
 
-@interface CrawlerMapViewController : UIViewController <UIPickerViewDataSource, UIPickerViewDelegate, CrawlerMapViewDelegate> {
+@interface CrawlerMapViewController : UIViewController <UIPickerViewDataSource, UIPickerViewDelegate, CrawlerMapViewDelegate, GLKViewDelegate> {
+    
+    EAGLContext *glContext;
+
+    GLuint _vertexArray;
+    
+    float _curRed;
+    float _rotation;
+    BOOL _increasing;
+    GLuint _vertexBuffer;
+    GLuint _indexBuffer;
+    GLKBaseEffect *effect;
+
     
     Map *currentMap;
     World *currentWorld;
@@ -28,16 +41,15 @@ typedef enum _AnimateInFrom {
     
     NSManagedObject *newObject;
     
+    // a thumbnail of the view from the current cell
+    __weak IBOutlet GLKView *previewCellView;
+    
     // coarse/fine edit mode, enable/disable cells or set their detail
     __weak IBOutlet UISwitch *detailModeSwitch;
     
     // the view that displays the current map
     __weak IBOutlet CrawlerMapView *mapView;
-    
-    // display titles above the map view
-    __weak IBOutlet UILabel *currentWorldLabel;
-    __weak IBOutlet UILabel *currentMapLabel;
-    
+        
     // name the world or map
     __weak IBOutlet UIView *nameRequester;
     __weak IBOutlet UITextField *nameTextField;

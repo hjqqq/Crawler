@@ -16,7 +16,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" id="tnb-s0-Rz2" customClass="CrawlerMapView">
-                                <rect key="frame" x="20" y="78" width="625" height="636"/>
+                                <rect key="frame" x="20" y="98" width="525" height="525"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                 <gestureRecognizers/>
@@ -25,32 +25,8 @@
                                     <outletCollection property="gestureRecognizers" destination="sY5-22-F4v" appends="YES" id="QSl-zo-Au5"/>
                                 </connections>
                             </view>
-                            <view contentMode="scaleToFill" id="8HU-jX-wWa">
-                                <rect key="frame" x="20" y="755" width="200" height="200"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                            </view>
-                            <view contentMode="scaleToFill" id="Z2M-bz-nuE">
-                                <rect key="frame" x="445" y="755" width="200" height="200"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                            </view>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Texture" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="bTf-jv-pPE">
-                                <rect key="frame" x="516" y="963" width="58" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Plan View" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="L7j-NF-9II">
-                                <rect key="frame" x="82" y="963" width="76" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="QBu-aq-vYO">
-                                <rect key="frame" x="653" y="65" width="95" height="37"/>
+                                <rect key="frame" x="20" y="59" width="728" height="31"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal" title="Map">
@@ -80,7 +56,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="7d7-Vn-G2c">
-                                <rect key="frame" x="653" y="20" width="95" height="37"/>
+                                <rect key="frame" x="20" y="20" width="728" height="31"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal" title="World">
@@ -109,22 +85,6 @@
                                     <action selector="nameMap:" destination="2ee-6Q-uCV" eventType="touchUpInside" id="tgt-dI-8U7"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="World name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="w0v-td-wgL">
-                                <rect key="frame" x="20" y="20" width="625" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.59390409369999997" green="0.86777074009999999" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Map name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="UCy-gf-2k7">
-                                <rect key="frame" x="20" y="49" width="625" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.59390409369999997" green="0.86777074009999999" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Map" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="kcS-FT-4PE">
                                 <rect key="frame" x="653" y="110" width="95" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -214,33 +174,39 @@
                                 </connections>
                             </button>
                             <switch opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="VoC-LI-suo">
-                                <rect key="frame" x="661" y="687" width="79" height="27"/>
+                                <rect key="frame" x="661" y="601" width="79" height="27"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <connections>
                                     <action selector="detailModeSwitch:" destination="2ee-6Q-uCV" eventType="valueChanged" id="sey-tC-2fm"/>
                                 </connections>
                             </switch>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Detail Mode" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="fq6-iZ-F3h">
-                                <rect key="frame" x="653" y="658" width="95" height="21"/>
+                                <rect key="frame" x="653" y="572" width="95" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <glkView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" drawableDepthFormat="24" drawableMultisample="4X" enableSetNeedsDisplay="NO" id="tbl-j2-bxl">
+                                <rect key="frame" x="20" y="636" width="464" height="348"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <connections>
+                                    <outlet property="delegate" destination="2ee-6Q-uCV" id="zjz-QO-t7V"/>
+                                </connections>
+                            </glkView>
                         </subviews>
                         <color key="backgroundColor" red="0.108628296" green="1" blue="0.54201823540000005" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
                     <connections>
-                        <outlet property="currentMapLabel" destination="UCy-gf-2k7" id="dsp-YY-p09"/>
-                        <outlet property="currentWorldLabel" destination="w0v-td-wgL" id="Ued-0i-crG"/>
                         <outlet property="detailModeSwitch" destination="VoC-LI-suo" id="SlL-7C-FzR"/>
-                        <outlet property="mapButton" destination="QBu-aq-vYO" id="7Hc-g1-Xzl"/>
+                        <outlet property="mapButton" destination="QBu-aq-vYO" id="Vhv-ch-CE6"/>
                         <outlet property="mapPicker" destination="kjd-OZ-8c9" id="UI5-C8-WJn"/>
                         <outlet property="mapView" destination="tnb-s0-Rz2" id="GiM-io-nSt"/>
                         <outlet property="nameLabel" destination="AP0-9Q-Uka" id="Lrw-kX-OP8"/>
                         <outlet property="nameRequester" destination="0QJ-h8-La0" id="Tiy-lb-c2m"/>
                         <outlet property="nameTextField" destination="119-0Z-EIH" id="X4z-Wh-JcV"/>
-                        <outlet property="worldButton" destination="7d7-Vn-G2c" id="kHn-9g-KWP"/>
+                        <outlet property="previewCellView" destination="tbl-j2-bxl" id="W20-5P-GR8"/>
+                        <outlet property="worldButton" destination="7d7-Vn-G2c" id="Kxe-ff-Imk"/>
                         <outlet property="worldPicker" destination="GZR-Jq-4PC" id="EZg-0K-r7k"/>
                     </connections>
                 </viewController>
@@ -254,6 +220,40 @@
             <point key="canvasLocation" x="309" y="130"/>
         </scene>
     </scenes>
+    <classes>
+        <class className="CrawlerMapView" superclassName="UIView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/CrawlerMapView.h"/>
+            <relationships>
+                <relationship kind="action" name="mapTap:" candidateClass="UITapGestureRecognizer"/>
+                <relationship kind="outlet" name="delegate"/>
+            </relationships>
+        </class>
+        <class className="CrawlerMapViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/CrawlerMapViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="cancelName:" candidateClass="UIButton"/>
+                <relationship kind="action" name="detailModeSwitch:" candidateClass="UISwitch"/>
+                <relationship kind="action" name="loadMap:" candidateClass="UIButton"/>
+                <relationship kind="action" name="loadWorld:" candidateClass="UIButton"/>
+                <relationship kind="action" name="nameMap:" candidateClass="UIButton"/>
+                <relationship kind="action" name="saveMap:" candidateClass="UIButton"/>
+                <relationship kind="action" name="saveName:" candidateClass="UIButton"/>
+                <relationship kind="action" name="trashMap:" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="currentMapLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="currentWorldLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="detailModeSwitch" candidateClass="UISwitch"/>
+                <relationship kind="outlet" name="mapButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="mapPicker" candidateClass="UIPickerView"/>
+                <relationship kind="outlet" name="mapView" candidateClass="CrawlerMapView"/>
+                <relationship kind="outlet" name="nameLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="nameRequester" candidateClass="UIView"/>
+                <relationship kind="outlet" name="nameTextField" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="previewCellView" candidateClass="GLKView"/>
+                <relationship kind="outlet" name="worldButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="worldPicker" candidateClass="UIPickerView"/>
+            </relationships>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar" statusBarStyle="blackTranslucent"/>
         <simulatedOrientationMetrics key="orientation"/>

@@ -3,7 +3,7 @@
 //  Crawler
 //
 //  Created by Adam Eberbach on 20/04/12.
-//  Copyright (c) 2012 Tickbox. All rights reserved.
+//  Copyright (c) 2012 Adam Eberbach. All rights reserved.
 //
 
 #import "AppDelegate.h"

@@ -3,7 +3,7 @@
 //  Crawler
 //
 //  Created by Adam Eberbach on 20/04/12.
-//  Copyright (c) 2012 Tickbox. All rights reserved.
+//  Copyright (c) 2012 Adam Eberbach. All rights reserved.
 //
 
 #import "CrawlerMapView.h"
@@ -116,8 +116,8 @@
 - (int)tagForCoordinate:(CGPoint)point {
 
     // indexed from zero this works out nicely
-    int rows = (int)(point.y / (CGFloat)kMapCellsVertical);
-    int columns = (int)(point.x / (CGFloat)kMapCellsHorizontal);
+    int rows = (int)(point.y / cellHeight);
+    int columns = (int)(point.x / cellWidth);
     int tag = (rows * kMapCellsHorizontal) + columns;
     return tag;
 }

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		66392128154AC25A00822595 /* tile_floor.png in Resources */ = {isa = PBXBuildFile; fileRef = 66392127154AC25A00822595 /* tile_floor.png */; };
 		668A68FE15412C7C00FED6F9 /* CrawlerMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 668A68FD15412C7C00FED6F9 /* CrawlerMapViewController.m */; };
 		668A690615412FDB00FED6F9 /* World.m in Sources */ = {isa = PBXBuildFile; fileRef = 668A690515412FDB00FED6F9 /* World.m */; };
 		668A690915412FDB00FED6F9 /* Map.m in Sources */ = {isa = PBXBuildFile; fileRef = 668A690815412FDB00FED6F9 /* Map.m */; };
@@ -23,9 +24,13 @@
 		66CF66401540B674007C39E5 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 66CF663F1540B674007C39E5 /* AppDelegate.m */; };
 		66CF66431540B675007C39E5 /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 66CF66411540B675007C39E5 /* MainStoryboard.storyboard */; };
 		66CF66541540D655007C39E5 /* CrawlerMapView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66CF66531540D655007C39E5 /* CrawlerMapView.m */; };
+		66F3DF461544DF3500E997FE /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66F3DF451544DF3500E997FE /* QuartzCore.framework */; };
+		66F3DF491544DF3D00E997FE /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66F3DF481544DF3D00E997FE /* OpenGLES.framework */; };
+		66F3DF4B1544DF4400E997FE /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66F3DF4A1544DF4400E997FE /* GLKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		66392127154AC25A00822595 /* tile_floor.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tile_floor.png; sourceTree = "<group>"; };
 		668A68FC15412C7C00FED6F9 /* CrawlerMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CrawlerMapViewController.h; path = Mapping/CrawlerMapViewController.h; sourceTree = "<group>"; };
 		668A68FD15412C7C00FED6F9 /* CrawlerMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CrawlerMapViewController.m; path = Mapping/CrawlerMapViewController.m; sourceTree = "<group>"; };
 		668A690415412FDB00FED6F9 /* World.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = World.h; path = "Core Data/World.h"; sourceTree = "<group>"; };
@@ -55,6 +60,9 @@
 		66CF66421540B675007C39E5 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
 		66CF66521540D655007C39E5 /* CrawlerMapView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CrawlerMapView.h; path = Mapping/CrawlerMapView.h; sourceTree = "<group>"; };
 		66CF66531540D655007C39E5 /* CrawlerMapView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CrawlerMapView.m; path = Mapping/CrawlerMapView.m; sourceTree = "<group>"; };
+		66F3DF451544DF3500E997FE /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		66F3DF481544DF3D00E997FE /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
+		66F3DF4A1544DF4400E997FE /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +70,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				66F3DF4B1544DF4400E997FE /* GLKit.framework in Frameworks */,
+				66F3DF491544DF3D00E997FE /* OpenGLES.framework in Frameworks */,
+				66F3DF461544DF3500E997FE /* QuartzCore.framework in Frameworks */,
 				66CF662E1540B674007C39E5 /* UIKit.framework in Frameworks */,
 				66CF66301540B674007C39E5 /* Foundation.framework in Frameworks */,
 				66CF66321540B674007C39E5 /* CoreGraphics.framework in Frameworks */,
@@ -72,6 +83,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		66392126154AC24C00822595 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				66392127154AC25A00822595 /* tile_floor.png */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
 		668A690015412FBC00FED6F9 /* Core Data */ = {
 			isa = PBXGroup;
 			children = (
@@ -111,6 +130,9 @@
 		66CF662C1540B674007C39E5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				66F3DF4A1544DF4400E997FE /* GLKit.framework */,
+				66F3DF481544DF3D00E997FE /* OpenGLES.framework */,
+				66F3DF451544DF3500E997FE /* QuartzCore.framework */,
 				66CF662D1540B674007C39E5 /* UIKit.framework */,
 				66CF662F1540B674007C39E5 /* Foundation.framework */,
 				66CF66311540B674007C39E5 /* CoreGraphics.framework */,
@@ -122,6 +144,7 @@
 		66CF66351540B674007C39E5 /* Crawler */ = {
 			isa = PBXGroup;
 			children = (
+				66392126154AC24C00822595 /* Resources */,
 				66CF66411540B675007C39E5 /* MainStoryboard.storyboard */,
 				668A690015412FBC00FED6F9 /* Core Data */,
 				66CF66551540D65A007C39E5 /* Mapping */,
@@ -182,7 +205,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0430;
-				ORGANIZATIONNAME = Tickbox;
+				ORGANIZATIONNAME = "Adam Eberbach";
 			};
 			buildConfigurationList = 66CF66231540B674007C39E5 /* Build configuration list for PBXProject "Crawler" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -208,6 +231,7 @@
 			files = (
 				66CF663A1540B674007C39E5 /* InfoPlist.strings in Resources */,
 				66CF66431540B675007C39E5 /* MainStoryboard.storyboard in Resources */,
+				66392128154AC25A00822595 /* tile_floor.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
