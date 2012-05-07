@@ -10,6 +10,8 @@
 #import "DataModel.h"
 #import "CrawlerMapView.h"
 #import "CrawlerMapViewDelegate.h"
+#import "MapHighlightView.h"
+#import "MapEditCamera.h"
 #import <GLKit/GLKit.h>
 
 typedef enum _AnimateInFrom {
@@ -40,6 +42,9 @@ typedef enum _AnimateInFrom {
     NSArray *mapArray;
     
     NSManagedObject *newObject;
+
+    MapEditCamera *mapEditCamera;
+    MapHighlightView *mapHighlightView;
     
     // a thumbnail of the view from the current cell
     __weak IBOutlet GLKView *previewCellView;
@@ -64,6 +69,15 @@ typedef enum _AnimateInFrom {
     __weak IBOutlet UIPickerView *worldPicker;
     __weak IBOutlet UIPickerView *mapPicker;
 }
+
+// arrows
+- (IBAction)turnLeft:(UIButton *)sender;
+- (IBAction)turnRight:(UIButton *)sender;
+- (IBAction)strafeLeft:(UIButton *)sender;
+- (IBAction)strafeRight:(UIButton *)sender;
+- (IBAction)moveForward:(UIButton *)sender;
+- (IBAction)moveBack:(UIButton *)sender;
+
 - (IBAction)detailModeSwitch:(UISwitch *)sender;
 
 // accept a name change or create operation

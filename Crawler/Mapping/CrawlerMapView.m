@@ -41,11 +41,6 @@
     [self setNeedsDisplay];
 }
 
-- (void)detailHighlightCellWithTag:(int)tag {
-    highlightTag = tag;
-    [self setNeedsDisplay];
-}
-
 // this view created from storyboard
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
@@ -54,10 +49,11 @@
         cellWidth = floorf(self.frame.size.width / kMapCellsHorizontal);
         cellHeight = floorf(self.frame.size.height / kMapCellsVertical);
         totalCells = kMapCellsHorizontal * kMapCellsVertical;
-        highlightTagDirection = kCellDirectionNorth;
     }
     return self;
 }
+
+static inline float radians(double degrees) { return degrees * M_PI / 180; }
 
 - (void)drawRect:(CGRect)rect
 {    
@@ -89,13 +85,6 @@
                 tag++;
             }  
             CGContextFlush(ctx);
-        }
-        
-        if(displayHighlightTag) {
-            // detail highlight is a border for the cell currently being edited with an arrow indicating view direction
-            CGRect highlightRect = [self rectForTag:highlightTag];
-            [[UIColor redColor] setStroke];
-            CGContextStrokeRectWithWidth(ctx, highlightRect, 2.f);
         }
     }
 }

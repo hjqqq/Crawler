@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		661EEAA01557D9E800593039 /* Mobile.m in Sources */ = {isa = PBXBuildFile; fileRef = 661EEA9F1557D9E800593039 /* Mobile.m */; };
+		661EEAA31557DA4F00593039 /* MapEditCamera.m in Sources */ = {isa = PBXBuildFile; fileRef = 661EEAA21557DA4F00593039 /* MapEditCamera.m */; };
+		661EEAAA1557E65B00593039 /* MapHighlightView.m in Sources */ = {isa = PBXBuildFile; fileRef = 661EEAA91557E65B00593039 /* MapHighlightView.m */; };
 		66392128154AC25A00822595 /* tile_floor.png in Resources */ = {isa = PBXBuildFile; fileRef = 66392127154AC25A00822595 /* tile_floor.png */; };
 		668A68FE15412C7C00FED6F9 /* CrawlerMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 668A68FD15412C7C00FED6F9 /* CrawlerMapViewController.m */; };
 		668A690615412FDB00FED6F9 /* World.m in Sources */ = {isa = PBXBuildFile; fileRef = 668A690515412FDB00FED6F9 /* World.m */; };
@@ -30,6 +33,14 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		661EEA9E1557D9E800593039 /* Mobile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Mobile.h; path = Mobiles/Mobile.h; sourceTree = "<group>"; };
+		661EEA9F1557D9E800593039 /* Mobile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Mobile.m; path = Mobiles/Mobile.m; sourceTree = "<group>"; };
+		661EEAA11557DA4F00593039 /* MapEditCamera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MapEditCamera.h; path = Mobiles/MapEditCamera.h; sourceTree = "<group>"; };
+		661EEAA21557DA4F00593039 /* MapEditCamera.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MapEditCamera.m; path = Mobiles/MapEditCamera.m; sourceTree = "<group>"; };
+		661EEAA81557E65B00593039 /* MapHighlightView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MapHighlightView.h; path = Mapping/MapHighlightView.h; sourceTree = "<group>"; };
+		661EEAA91557E65B00593039 /* MapHighlightView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MapHighlightView.m; path = Mapping/MapHighlightView.m; sourceTree = "<group>"; };
+		661EEAAC1557EA4A00593039 /* MapStuff.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MapStuff.h; path = Mapping/MapStuff.h; sourceTree = "<group>"; };
+		661EEAAD1557EB2300593039 /* MapEditCameraDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MapEditCameraDelegate.h; path = Mapping/MapEditCameraDelegate.h; sourceTree = "<group>"; };
 		66392127154AC25A00822595 /* tile_floor.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tile_floor.png; sourceTree = "<group>"; };
 		668A68FC15412C7C00FED6F9 /* CrawlerMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CrawlerMapViewController.h; path = Mapping/CrawlerMapViewController.h; sourceTree = "<group>"; };
 		668A68FD15412C7C00FED6F9 /* CrawlerMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CrawlerMapViewController.m; path = Mapping/CrawlerMapViewController.m; sourceTree = "<group>"; };
@@ -83,6 +94,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		661EEA9C1557D9B700593039 /* Mobiles */ = {
+			isa = PBXGroup;
+			children = (
+				661EEA9E1557D9E800593039 /* Mobile.h */,
+				661EEA9F1557D9E800593039 /* Mobile.m */,
+				661EEAA11557DA4F00593039 /* MapEditCamera.h */,
+				661EEAA21557DA4F00593039 /* MapEditCamera.m */,
+				661EEAAD1557EB2300593039 /* MapEditCameraDelegate.h */,
+			);
+			name = Mobiles;
+			sourceTree = "<group>";
+		};
 		66392126154AC24C00822595 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -144,6 +167,7 @@
 		66CF66351540B674007C39E5 /* Crawler */ = {
 			isa = PBXGroup;
 			children = (
+				661EEA9C1557D9B700593039 /* Mobiles */,
 				66392126154AC24C00822595 /* Resources */,
 				66CF66411540B675007C39E5 /* MainStoryboard.storyboard */,
 				668A690015412FBC00FED6F9 /* Core Data */,
@@ -169,6 +193,9 @@
 		66CF66551540D65A007C39E5 /* Mapping */ = {
 			isa = PBXGroup;
 			children = (
+				661EEAAC1557EA4A00593039 /* MapStuff.h */,
+				661EEAA81557E65B00593039 /* MapHighlightView.h */,
+				661EEAA91557E65B00593039 /* MapHighlightView.m */,
 				66CF66521540D655007C39E5 /* CrawlerMapView.h */,
 				66CF66531540D655007C39E5 /* CrawlerMapView.m */,
 				668A691B154187E700FED6F9 /* CrawlerMapViewDelegate.h */,
@@ -252,6 +279,9 @@
 				668A6921154255AC00FED6F9 /* Cell.m in Sources */,
 				668A69241542560F00FED6F9 /* Cell+helper.m in Sources */,
 				668A69271542588900FED6F9 /* Map+helper.m in Sources */,
+				661EEAA01557D9E800593039 /* Mobile.m in Sources */,
+				661EEAA31557DA4F00593039 /* MapEditCamera.m in Sources */,
+				661EEAAA1557E65B00593039 /* MapHighlightView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -9,6 +9,7 @@
 #import "CrawlerMapViewController.h"
 #import "DataModel.h"
 #import <QuartzCore/QuartzCore.h>
+#import "MapHighlightView.h"
 
 typedef struct {
     float Position[3];
@@ -188,6 +189,15 @@ const GLubyte Indices[] = {
     [super viewDidLoad];
     [mapView detailMode:detailModeSwitch.on];
     
+    // the cursor for map editing appears in detail mode. 
+    CGRect firstCell = [self.view convertRect:[mapView rectForTag:0] fromView:mapView];
+    mapHighlightView = [[MapHighlightView alloc] initWithFrame:firstCell];
+    [self.view addSubview:mapHighlightView];
+    mapHighlightView.hidden = YES;
+    
+    mapEditCamera = [[MapEditCamera alloc] init];
+    mapEditCamera.viewDelegate = mapHighlightView;
+    
     [self setupGL];
 }
 
@@ -239,11 +249,7 @@ const GLubyte Indices[] = {
         
     } else {
         
-        // in detail mode, map view needs to highlight selected cell
-        [mapView detailHighlightCellWithTag:tag];
-        
-        // edit windows need to be updated with current cell status
-        NSLog(@"Selecting cell tagged %d for detail editing", tag);
+        [mapHighlightView updatePositionByTag:tag];
     }
 }
 
@@ -512,7 +518,32 @@ const GLubyte Indices[] = {
     [self refreshPickers];
 }
 
+- (IBAction)turnLeft:(UIButton *)sender {
+    [mapEditCamera turnLeft];
+}
+
+- (IBAction)turnRight:(UIButton *)sender {
+    [mapEditCamera turnRight];
+}
+
+- (IBAction)strafeLeft:(UIButton *)sender {
+    [mapEditCamera strafeLeft];
+}
+
+- (IBAction)strafeRight:(UIButton *)sender {
+    [mapEditCamera strafeRight];
+}
+
+- (IBAction)moveForward:(UIButton *)sender {
+    [mapEditCamera moveForward];
+}
+
+- (IBAction)moveBack:(UIButton *)sender {
+    [mapEditCamera moveBack];
+}
+
 - (IBAction)detailModeSwitch:(UISwitch *)sender {
     [mapView detailMode:detailModeSwitch.on];
+    mapHighlightView.hidden = !detailModeSwitch.on;
 }
 @end

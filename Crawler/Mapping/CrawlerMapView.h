@@ -13,13 +13,6 @@
 #define kKeyCellTag           (@"kKeyCellTag")
 #define kKeyCellState         (@"kKeyCellState")
 
-typedef enum _CellDirection {
-    kCellDirectionNorth,
-    kCellDirectionSouth,
-    kCellDirectionEast,
-    kCellDirectionWest
-} CellDirection;
-
 typedef enum _CellState {
     kCellStateClosed,
     kCellStateOpen
@@ -31,7 +24,6 @@ typedef enum _CellState {
     
     BOOL displayHighlightTag;
     int highlightTag;
-    CellDirection highlightTagDirection;
     
     NSArray *cellsArray;
     CGFloat cellWidth;
@@ -45,7 +37,7 @@ typedef enum _CellState {
 #pragma public methods
 - (void)mapForDisplay:(Map *)map;
 - (void)updateCellWithTag:(int)tag;
-- (void)detailHighlightCellWithTag:(int)tag;
 - (void)detailMode:(BOOL)state;
+- (CGRect)rectForTag:(int)tag;
 
 @end
