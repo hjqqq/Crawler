@@ -21,7 +21,21 @@ typedef enum _AnimateInFrom {
     kDirectionBottom
 } AnimateInFrom;
 
+typedef enum _MovingInDirection {
+    kMovingZNegative,
+    kMovingZPositive,
+    kMovingXPositive,
+    kMovingXNegative
+} MovingInDirection;
+
+#define kMoveInterval (750.f)
+
 @interface CrawlerMapViewController : UIViewController <UIPickerViewDataSource, UIPickerViewDelegate, CrawlerMapViewDelegate, GLKViewDelegate> {
+    
+    MovingInDirection moveDirection;
+    float zPosition;
+    float xPosition;
+    double moveBegan;
     
     EAGLContext *glContext;
 

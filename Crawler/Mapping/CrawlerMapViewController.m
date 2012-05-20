@@ -20,56 +20,16 @@ typedef struct {
 
 const Vertex Vertices[] = {
     // Front
-    {{1, -1, 1}, {1, 0, 0, 1}, {1, 0}, {0, 0, 1}},
-    {{1, 1, 1}, {0, 1, 0, 1}, {1, 1}, {0, 0, 1}},
-    {{-1, 1, 1}, {0, 0, 1, 1}, {0, 1}, {0, 0, 1}},
-    {{-1, -1, 1}, {0, 0, 0, 1}, {0, 0}, {0, 0, 1}},
-    // Back
-    {{1, 1, -1}, {1, 0, 0, 1}, {0, 1}, {0, 0, -1}},
-    {{-1, -1, -1}, {0, 1, 0, 1}, {1, 0}, {0, 0, -1}},
-    {{1, -1, -1}, {0, 0, 1, 1}, {0, 0}, {0, 0, -1}},
-    {{-1, 1, -1}, {0, 0, 0, 1}, {1, 1}, {0, 0, -1}},
-    // Left
-    {{-1, -1, 1}, {1, 0, 0, 1}, {1, 0}, {-1, 0, 0}}, 
-    {{-1, 1, 1}, {0, 1, 0, 1}, {1, 1}, {-1, 0, 0}},
-    {{-1, 1, -1}, {0, 0, 1, 1}, {0, 1}, {-1, 0, 0}},
-    {{-1, -1, -1}, {0, 0, 0, 1}, {0, 0}, {-1, 0, 0}},
-    // Right
-    {{1, -1, -1}, {1, 0, 0, 1}, {1, 0}, {1, 0, 0}},
-    {{1, 1, -1}, {0, 1, 0, 1}, {1, 1}, {1, 0, 0}},
-    {{1, 1, 1}, {0, 0, 1, 1}, {0, 1}, {1, 0, 0}},
-    {{1, -1, 1}, {0, 0, 0, 1}, {0, 0}, {1, 0, 0}},
-    // Top
-    {{1, 1, 1}, {1, 0, 0, 1}, {1, 0}, {0, 1, 0}},
-    {{1, 1, -1}, {0, 1, 0, 1}, {1, 1}, {0, 1, 0}},
-    {{-1, 1, -1}, {0, 0, 1, 1}, {0, 1}, {0, 1, 0}},
-    {{-1, 1, 1}, {0, 0, 0, 1}, {0, 0}, {0, 1, 0}},
-    // Bottom
-    {{1, -1, -1}, {1, 0, 0, 1}, {1, 0}, {0, -1, 0}},
-    {{1, -1, 1}, {0, 1, 0, 1}, {1, 1}, {0, -1, 0}},
-    {{-1, -1, 1}, {0, 0, 1, 1}, {0, 1}, {0, -1, 0}}, 
-    {{-1, -1, -1}, {0, 0, 0, 1}, {0, 0}, {0, -1, 0}}
+    {{-0.5, -0.5, -0.5}, {1, 0, 0, 1}, {1, 0}, {0, 0, 1}},
+    {{0.5, -0.5, -0.5}, {1, 0, 0, 1}, {1, 1}, {0, 0, 1}},
+    {{0.5, 0.5, -0.5}, {1, 0, 0, 1}, {0, 1}, {0, 0, 1}},
+    {{-0.5, 0.5, -0.5}, {1, 0, 0, 1}, {0, 0}, {0, 0, 1}}
 };
 
 const GLubyte Indices[] = {
     // Front
     0, 1, 2,
-    2, 3, 0,
-    // Back
-    4, 6, 5,
-    4, 5, 7,
-    // Left
-    8, 9, 10,
-    10, 11, 8,
-    // Right
-    12, 13, 14,
-    14, 15, 12,
-    // Top
-    16, 17, 18,
-    18, 19, 16,
-    // Bottom
-    20, 21, 22,
-    22, 23, 20
+    2, 3, 0
 };
 
 @interface CrawlerMapViewController ()
@@ -94,7 +54,7 @@ const GLubyte Indices[] = {
 }
 
 - (void)setupGL {
-
+    
     // GLKView is created by storyboard and delegate is self. EAGLContext is ivar. 
     glContext = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
     previewCellView.context = glContext;
@@ -119,7 +79,7 @@ const GLubyte Indices[] = {
         NSLog(@"Error loading tile floor texture");
     effect.texture2d0.name = info.name;
     effect.texture2d0.enabled = true;
-
+    
     glEnableVertexAttribArray(GLKVertexAttribTexCoord0);
     glVertexAttribPointer(GLKVertexAttribTexCoord0, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid *)offsetof(Vertex, TexCoord));
     
@@ -131,7 +91,7 @@ const GLubyte Indices[] = {
     [displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
     
     float aspect = fabsf(previewCellView.bounds.size.width / previewCellView.bounds.size.height);
-    GLKMatrix4 projectionMatrix = GLKMatrix4MakePerspective(GLKMathDegreesToRadians(65.0f), aspect, 4.0f, 10.0f);    
+    GLKMatrix4 projectionMatrix = GLKMatrix4MakePerspective(GLKMathDegreesToRadians(85.0f), aspect, 0.1f, 30.0f);    
     effect.transform.projectionMatrix = projectionMatrix;
     
     glEnableVertexAttribArray(GLKVertexAttribPosition);        
@@ -140,7 +100,9 @@ const GLubyte Indices[] = {
     glVertexAttribPointer(GLKVertexAttribColor, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid *) offsetof(Vertex, Color));
     
     glBindVertexArrayOES(0);
-
+    
+    zPosition = 0.5;
+    xPosition = 1.f;
 }
 
 - (void)tearDownGL {
@@ -152,18 +114,68 @@ const GLubyte Indices[] = {
     effect = nil;
 }
 
+GLKMatrix4 baseMatrix;
+GLKMatrix4 viewMatrix;
+
+static BOOL inline closeToZero(double testValue) {
+
+    if(testValue < 0.001)
+        return YES;
+    return NO;
+}
+
+// handle moving the view matrix in response to movement commands
 - (void)render:(CADisplayLink*)displayLink {
     
-    GLKMatrix4 modelViewMatrix = GLKMatrix4MakeTranslation(0.0f, 0.0f, -6.0f);   
-//    _rotation += 2;
-//    modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, GLKMathDegreesToRadians(25), 1, 0, 0);
-//    modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, GLKMathDegreesToRadians(_rotation), 0, 1, 0);
-    effect.transform.modelviewMatrix = modelViewMatrix;
-    
-    // changes made to GLKBaseEffect are finalised
-    [effect prepareToDraw];
+    float xIncomplete;
+    float zIncomplete;
 
+    if(!closeToZero(moveBegan)) {
+        // viewMatrix is moving
+        NSTimeInterval moveNow = [[NSDate date] timeIntervalSince1970] * 1000;
+        
+        double moveElapsed = moveNow - moveBegan;
+        if(moveElapsed > kMoveInterval) {
+            // the move is complete
+            switch(moveDirection) {
+                case kMovingZPositive:
+                    zPosition += 1;
+                    break;
+                case kMovingZNegative:
+                    zPosition -= 1;
+                    break;
+                case kMovingXPositive:
+                    xPosition += 1;
+                    break;
+                case kMovingXNegative:
+                    xPosition -= 1;
+                    break;
+            }
+            moveBegan = 0.f;
+            xIncomplete = zIncomplete = 0.f;
+        } else {
+            switch(moveDirection) {
+                case kMovingZPositive:
+                    zIncomplete = moveElapsed * 1.f / kMoveInterval;
+                    break;
+                case kMovingZNegative:
+                    zIncomplete = moveElapsed * -1.f / kMoveInterval;
+                    break;
+                case kMovingXPositive:
+                    xIncomplete = moveElapsed * 1.f / kMoveInterval;
+                    break;
+                case kMovingXNegative:
+                    xIncomplete = moveElapsed * -1.f / kMoveInterval;
+                    xPosition -= 1;
+                    break;
+            }
+        }
+    }
     
+    baseMatrix = GLKMatrix4Identity;
+    viewMatrix = GLKMatrix4MakeLookAt(xPosition + xIncomplete, 0, zPosition + zIncomplete,
+                                      0, 0, -100,
+                                      0, 1, 0);
     [previewCellView display];
 }
 
@@ -173,13 +185,55 @@ const GLubyte Indices[] = {
 
 - (void)glkView:(GLKView *)view drawInRect:(CGRect)rect {
     
+    // changes made to GLKBaseEffect are finalised
+    [effect prepareToDraw];
+    
     glClearColor(0.0, 0.0, 0.0, 1.0);
     glClear(GL_COLOR_BUFFER_BIT);
-    
     glBindVertexArrayOES(_vertexArray);
+    
+    // rotation seems to pivot around the origin...
+    // wall in front
+    effect.transform.modelviewMatrix = viewMatrix;
+    [effect prepareToDraw];
     glDrawElements(GL_TRIANGLES, sizeof(Indices)/sizeof(Indices[0]), GL_UNSIGNED_BYTE, 0);
-}
 
+    // wall to right
+    GLKMatrix4 rightWall = viewMatrix; //GLKMatrix4Translate(viewMatrix, 0, 0, 0);
+    rightWall = GLKMatrix4RotateY(rightWall, -M_PI_2);
+    effect.transform.modelviewMatrix = rightWall;
+    [effect prepareToDraw];
+    glDrawElements(GL_TRIANGLES, sizeof(Indices)/sizeof(Indices[0]), GL_UNSIGNED_BYTE, 0);
+
+    // wall to left
+    GLKMatrix4 leftWall = viewMatrix; //GLKMatrix4Translate(viewMatrix, 0, 0, 0);
+    leftWall = GLKMatrix4RotateY(leftWall, M_PI_2);
+    effect.transform.modelviewMatrix = leftWall;
+    [effect prepareToDraw];
+    glDrawElements(GL_TRIANGLES, sizeof(Indices)/sizeof(Indices[0]), GL_UNSIGNED_BYTE, 0);
+
+    // floor
+    GLKMatrix4 floor = viewMatrix; //GLKMatrix4Translate(viewMatrix, 0, 0, 0);
+    floor = GLKMatrix4RotateX(floor, -M_PI_2);
+    effect.transform.modelviewMatrix = floor;
+    [effect prepareToDraw];
+    glDrawElements(GL_TRIANGLES, sizeof(Indices)/sizeof(Indices[0]), GL_UNSIGNED_BYTE, 0);
+
+    // ceiling
+    GLKMatrix4 ceiling = viewMatrix; //GLKMatrix4Translate(viewMatrix, 0, 0, 0);
+    ceiling = GLKMatrix4RotateX(ceiling, M_PI_2);
+    effect.transform.modelviewMatrix = ceiling;
+    [effect prepareToDraw];
+    glDrawElements(GL_TRIANGLES, sizeof(Indices)/sizeof(Indices[0]), GL_UNSIGNED_BYTE, 0);
+
+    // behind
+    GLKMatrix4 behind = GLKMatrix4Translate(viewMatrix, 0, 0, 1);
+    behind = GLKMatrix4RotateX(behind, M_PI);
+    effect.transform.modelviewMatrix = behind;
+    [effect prepareToDraw];
+    glDrawElements(GL_TRIANGLES, sizeof(Indices)/sizeof(Indices[0]), GL_UNSIGNED_BYTE, 0);
+    
+}
 
 #pragma mark -
 #pragma mark View Controller Lifecycle
@@ -248,7 +302,8 @@ const GLubyte Indices[] = {
         [mapView updateCellWithTag:tag];
         
     } else {
-        
+        // set mapEditCamera to selected position
+        mapEditCamera.tag = tag;
         [mapHighlightView updatePositionByTag:tag];
     }
 }
@@ -302,7 +357,7 @@ const GLubyte Indices[] = {
             offscreenFrame.origin.y = [[UIScreen mainScreen] bounds].size.height;
             break;
     }
-
+    
     [UIView animateWithDuration:0.3f
                           delay:0.f 
                         options:UIViewAnimationOptionCurveEaseInOut 
@@ -327,7 +382,7 @@ const GLubyte Indices[] = {
 }
 
 - (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
-
+    
     [self refreshWorldData];
     
     if(pickerView == worldPicker) {
@@ -347,7 +402,7 @@ const GLubyte Indices[] = {
     // away from is saved.
     NSError *error;
     [_moc save:&error];
-
+    
     if(pickerView == worldPicker) {
         int worldCount = [worldArray count];
         
@@ -494,10 +549,10 @@ const GLubyte Indices[] = {
     if(currentWorld == nil) {
         // must have an active world to select or create a map
         UIAlertView *noWorldAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"In the worlds before Monkey...", nil)
-                                                          message:NSLocalizedString(@"There is no world yet, please choose or define", nil)
-                                                         delegate:nil
-                                                cancelButtonTitle:NSLocalizedString(@"Cancel", nil)
-                                                otherButtonTitles:nil];
+                                                               message:NSLocalizedString(@"There is no world yet, please choose or define", nil)
+                                                              delegate:nil
+                                                     cancelButtonTitle:NSLocalizedString(@"Cancel", nil)
+                                                     otherButtonTitles:nil];
         [noWorldAlert show];
     } else {
         [self showView:mapPicker fromDirection:kDirectionTop];
@@ -518,28 +573,54 @@ const GLubyte Indices[] = {
     [self refreshPickers];
 }
 
+- (void)beginMove {
+    moveBegan = [[NSDate date] timeIntervalSince1970] * 1000.0; // record time began in milliseconds
+}
+
 - (IBAction)turnLeft:(UIButton *)sender {
-    [mapEditCamera turnLeft];
+    if(closeToZero(moveBegan)) {
+        [self beginMove];
+        [mapEditCamera turnLeft];
+    }
 }
 
 - (IBAction)turnRight:(UIButton *)sender {
-    [mapEditCamera turnRight];
+    if(closeToZero(moveBegan)) {
+        [self beginMove];
+        [mapEditCamera turnRight];
+    }
 }
 
 - (IBAction)strafeLeft:(UIButton *)sender {
-    [mapEditCamera strafeLeft];
+    if(closeToZero(moveBegan)) {
+        moveDirection = kMovingXNegative;
+        [self beginMove];
+        [mapEditCamera strafeLeft];
+    }
 }
 
 - (IBAction)strafeRight:(UIButton *)sender {
-    [mapEditCamera strafeRight];
+    if(closeToZero(moveBegan)) {
+        moveDirection = kMovingXPositive;
+        [self beginMove];
+        [mapEditCamera strafeRight];
+    }
 }
 
 - (IBAction)moveForward:(UIButton *)sender {
-    [mapEditCamera moveForward];
+    if(closeToZero(moveBegan)) {
+        moveDirection = kMovingZNegative;
+        [self beginMove];
+        [mapEditCamera moveForward];
+    }
 }
 
 - (IBAction)moveBack:(UIButton *)sender {
-    [mapEditCamera moveBack];
+    if(closeToZero(moveBegan)) {
+        moveDirection = kMovingZPositive;
+        [self beginMove];
+        [mapEditCamera moveBack];
+    }
 }
 
 - (IBAction)detailModeSwitch:(UISwitch *)sender {
