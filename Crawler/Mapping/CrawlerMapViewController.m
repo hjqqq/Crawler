@@ -103,6 +103,9 @@ const GLubyte Indices[] = {
     
     zPosition = 0.5;
     xPosition = 1.f;
+    lookAtX = 0;
+    lookAtZ = -1;
+    facing = kFacingNorth;
 }
 
 - (void)tearDownGL {
@@ -114,7 +117,6 @@ const GLubyte Indices[] = {
     effect = nil;
 }
 
-GLKMatrix4 baseMatrix;
 GLKMatrix4 viewMatrix;
 
 static BOOL inline closeToZero(double testValue) {
@@ -129,7 +131,8 @@ static BOOL inline closeToZero(double testValue) {
     
     float xIncomplete;
     float zIncomplete;
-
+    static TurningToward turningToward = kNoDirectionSet;
+    
     if(!closeToZero(moveBegan)) {
         // viewMatrix is moving
         NSTimeInterval moveNow = [[NSDate date] timeIntervalSince1970] * 1000;
@@ -150,31 +153,134 @@ static BOOL inline closeToZero(double testValue) {
                 case kMovingXNegative:
                     xPosition -= 1;
                     break;
+                case kRotatingLeft:
+                    if(turningToward == kTurningEast) {
+                        facing = kFacingEast;
+                        lookAtX = 1.f;
+                        lookAtZ = 0.f;
+                    } else if(turningToward == kTurningWest) {
+                        facing = kFacingWest;
+                        lookAtX = -1.f;
+                        lookAtZ = 0.f;
+                    } else if(turningToward == kTurningNorth) {
+                        facing = kFacingNorth;
+                        lookAtX = 0.f;
+                        lookAtZ = -1.f;
+                    } else {
+                        facing = kFacingSouth;
+                        lookAtX = 0.f;
+                        lookAtZ = 1.f;
+                    }
+                    break;
+                case kRotatingRight:
+                    if(turningToward == kTurningWest){
+                        facing = kFacingWest;
+                        lookAtX = -1.f;
+                        lookAtZ = 0.f;
+                    } else if(turningToward == kTurningEast) {
+                        facing = kFacingEast;
+                        lookAtX = 1.f;
+                        lookAtZ = 0.f;
+                    } else if(turningToward == kTurningSouth) {
+                        facing = kFacingSouth;
+                        lookAtX = 0.f;
+                        lookAtZ = 1.f;
+                    } else {
+                        facing = kFacingNorth;
+                        lookAtX = 0.f;
+                        lookAtZ = -1.f;
+                    }
+                    break;
             }
             moveBegan = 0.f;
             xIncomplete = zIncomplete = 0.f;
+            turningToward = kNoDirectionSet;
+            
         } else {
+            float fractionalMove = moveElapsed * 1.f / kMoveInterval;
             switch(moveDirection) {
                 case kMovingZPositive:
-                    zIncomplete = moveElapsed * 1.f / kMoveInterval;
+                    zIncomplete = fractionalMove;
                     break;
                 case kMovingZNegative:
-                    zIncomplete = moveElapsed * -1.f / kMoveInterval;
+                    zIncomplete = -fractionalMove;
                     break;
                 case kMovingXPositive:
-                    xIncomplete = moveElapsed * 1.f / kMoveInterval;
+                    xIncomplete = fractionalMove;
                     break;
                 case kMovingXNegative:
-                    xIncomplete = moveElapsed * -1.f / kMoveInterval;
-                    xPosition -= 1;
+                    xIncomplete = -fractionalMove;
+                    break;
+                case kRotatingLeft:
+                    
+                    if(turningToward == kNoDirectionSet) {
+                        if(lookAtZ > 0.5f){
+                            turningToward = kTurningEast;
+                        } else if(lookAtZ < -0.5f) {
+                            turningToward = kTurningWest;
+                        } else if(lookAtX > 0.5f) {
+                            turningToward = kTurningNorth;
+                        } else {
+                            turningToward = kTurningSouth;
+                        }
+                    }
+                        
+                    if(turningToward == kTurningEast){
+
+                        lookAtX = fractionalMove;
+                        lookAtZ = 1.f - fractionalMove;
+                    } else if(turningToward == kTurningWest) {
+
+                        lookAtX = -fractionalMove;
+                        lookAtZ = -1 + fractionalMove;
+                    } else if(turningToward == kTurningNorth) {
+
+                        lookAtX = 1 - fractionalMove;
+                        lookAtZ = -fractionalMove;
+                    } else {
+
+                        lookAtX = -1 + fractionalMove;
+                        lookAtZ = fractionalMove;
+                    }
+                    break;
+                    
+                case kRotatingRight:
+                    
+                    if(turningToward == kNoDirectionSet) {
+                        if(lookAtZ > 0.5f){
+                            turningToward = kTurningWest;
+                        } else if(lookAtZ < -0.5f) {
+                            turningToward = kTurningEast;
+                        } else if(lookAtX > 0.5f) {
+                            turningToward = kTurningSouth;
+                        } else {
+                            turningToward = kTurningNorth;
+                        }
+                    }
+
+                    if(turningToward == kTurningWest) {
+
+                        lookAtX = - fractionalMove;
+                        lookAtZ = 1 - fractionalMove;
+                    } else if(turningToward == kTurningEast) {
+
+                        lookAtX = fractionalMove;
+                        lookAtZ = -1 + fractionalMove;
+                    } else if(turningToward == kTurningSouth) {
+
+                        lookAtX = 1 - fractionalMove;
+                        lookAtZ = fractionalMove;
+                    } else {
+
+                        lookAtX = -1 + fractionalMove;
+                        lookAtZ = - fractionalMove;
+                    }
                     break;
             }
         }
     }
-    
-    baseMatrix = GLKMatrix4Identity;
     viewMatrix = GLKMatrix4MakeLookAt(xPosition + xIncomplete, 0, zPosition + zIncomplete,
-                                      0, 0, -100,
+                                      xPosition + xIncomplete + lookAtX, 0, zPosition + zIncomplete + lookAtZ,
                                       0, 1, 0);
     [previewCellView display];
 }
@@ -199,36 +305,31 @@ static BOOL inline closeToZero(double testValue) {
     glDrawElements(GL_TRIANGLES, sizeof(Indices)/sizeof(Indices[0]), GL_UNSIGNED_BYTE, 0);
 
     // wall to right
-    GLKMatrix4 rightWall = viewMatrix; //GLKMatrix4Translate(viewMatrix, 0, 0, 0);
-    rightWall = GLKMatrix4RotateY(rightWall, -M_PI_2);
+    GLKMatrix4 rightWall = GLKMatrix4RotateY(viewMatrix, -M_PI_2);
     effect.transform.modelviewMatrix = rightWall;
     [effect prepareToDraw];
     glDrawElements(GL_TRIANGLES, sizeof(Indices)/sizeof(Indices[0]), GL_UNSIGNED_BYTE, 0);
 
     // wall to left
-    GLKMatrix4 leftWall = viewMatrix; //GLKMatrix4Translate(viewMatrix, 0, 0, 0);
-    leftWall = GLKMatrix4RotateY(leftWall, M_PI_2);
+    GLKMatrix4 leftWall = GLKMatrix4RotateY(viewMatrix, M_PI_2);
     effect.transform.modelviewMatrix = leftWall;
     [effect prepareToDraw];
     glDrawElements(GL_TRIANGLES, sizeof(Indices)/sizeof(Indices[0]), GL_UNSIGNED_BYTE, 0);
 
     // floor
-    GLKMatrix4 floor = viewMatrix; //GLKMatrix4Translate(viewMatrix, 0, 0, 0);
-    floor = GLKMatrix4RotateX(floor, -M_PI_2);
+    GLKMatrix4 floor = GLKMatrix4RotateX(viewMatrix, -M_PI_2);
     effect.transform.modelviewMatrix = floor;
     [effect prepareToDraw];
     glDrawElements(GL_TRIANGLES, sizeof(Indices)/sizeof(Indices[0]), GL_UNSIGNED_BYTE, 0);
 
     // ceiling
-    GLKMatrix4 ceiling = viewMatrix; //GLKMatrix4Translate(viewMatrix, 0, 0, 0);
-    ceiling = GLKMatrix4RotateX(ceiling, M_PI_2);
+    GLKMatrix4 ceiling = GLKMatrix4RotateX(viewMatrix, M_PI_2);
     effect.transform.modelviewMatrix = ceiling;
     [effect prepareToDraw];
     glDrawElements(GL_TRIANGLES, sizeof(Indices)/sizeof(Indices[0]), GL_UNSIGNED_BYTE, 0);
 
     // behind
-    GLKMatrix4 behind = GLKMatrix4Translate(viewMatrix, 0, 0, 1);
-    behind = GLKMatrix4RotateX(behind, M_PI);
+    GLKMatrix4 behind = GLKMatrix4RotateX(viewMatrix, M_PI);
     effect.transform.modelviewMatrix = behind;
     [effect prepareToDraw];
     glDrawElements(GL_TRIANGLES, sizeof(Indices)/sizeof(Indices[0]), GL_UNSIGNED_BYTE, 0);
@@ -579,6 +680,7 @@ static BOOL inline closeToZero(double testValue) {
 
 - (IBAction)turnLeft:(UIButton *)sender {
     if(closeToZero(moveBegan)) {
+        moveDirection = kRotatingLeft;
         [self beginMove];
         [mapEditCamera turnLeft];
     }
@@ -586,6 +688,7 @@ static BOOL inline closeToZero(double testValue) {
 
 - (IBAction)turnRight:(UIButton *)sender {
     if(closeToZero(moveBegan)) {
+        moveDirection = kRotatingRight;
         [self beginMove];
         [mapEditCamera turnRight];
     }
@@ -593,7 +696,20 @@ static BOOL inline closeToZero(double testValue) {
 
 - (IBAction)strafeLeft:(UIButton *)sender {
     if(closeToZero(moveBegan)) {
-        moveDirection = kMovingXNegative;
+        switch(facing) {
+            case kFacingNorth:
+                moveDirection = kMovingXNegative;
+                break;
+            case kFacingSouth:
+                moveDirection = kMovingXPositive;
+                break;
+            case kFacingEast:
+                moveDirection = kMovingZNegative;
+                break;
+            case kFacingWest:
+                moveDirection = kMovingZPositive;
+                break;
+        }
         [self beginMove];
         [mapEditCamera strafeLeft];
     }
@@ -601,7 +717,20 @@ static BOOL inline closeToZero(double testValue) {
 
 - (IBAction)strafeRight:(UIButton *)sender {
     if(closeToZero(moveBegan)) {
-        moveDirection = kMovingXPositive;
+        switch(facing) {
+            case kFacingNorth:
+                moveDirection = kMovingXPositive;
+                break;
+            case kFacingSouth:
+                moveDirection = kMovingXNegative;
+                break;
+            case kFacingEast:
+                moveDirection = kMovingZPositive;
+                break;
+            case kFacingWest:
+                moveDirection = kMovingZNegative;
+                break;
+        }
         [self beginMove];
         [mapEditCamera strafeRight];
     }
@@ -609,7 +738,20 @@ static BOOL inline closeToZero(double testValue) {
 
 - (IBAction)moveForward:(UIButton *)sender {
     if(closeToZero(moveBegan)) {
-        moveDirection = kMovingZNegative;
+        switch(facing) {
+            case kFacingNorth:
+                moveDirection = kMovingZNegative;
+                break;
+            case kFacingSouth:
+                moveDirection = kMovingZPositive;
+                break;
+            case kFacingEast:
+                moveDirection = kMovingXPositive;
+                break;
+            case kFacingWest:
+                moveDirection = kMovingXNegative;
+                break;
+        }
         [self beginMove];
         [mapEditCamera moveForward];
     }
@@ -617,7 +759,20 @@ static BOOL inline closeToZero(double testValue) {
 
 - (IBAction)moveBack:(UIButton *)sender {
     if(closeToZero(moveBegan)) {
-        moveDirection = kMovingZPositive;
+        switch(facing) {
+            case kFacingNorth:
+                moveDirection = kMovingZPositive;
+                break;
+            case kFacingSouth:
+                moveDirection = kMovingZNegative;
+                break;
+            case kFacingEast:
+                moveDirection = kMovingXNegative;
+                break;
+            case kFacingWest:
+                moveDirection = kMovingXPositive;
+                break;
+        }
         [self beginMove];
         [mapEditCamera moveBack];
     }

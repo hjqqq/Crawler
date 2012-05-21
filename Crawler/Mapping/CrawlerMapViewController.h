@@ -25,8 +25,25 @@ typedef enum _MovingInDirection {
     kMovingZNegative,
     kMovingZPositive,
     kMovingXPositive,
-    kMovingXNegative
+    kMovingXNegative,
+    kRotatingRight,
+    kRotatingLeft
 } MovingInDirection;
+
+typedef enum _TurningToward {
+    kNoDirectionSet,
+    kTurningSouth,
+    kTurningNorth,
+    kTurningEast,
+    kTurningWest
+}TurningToward;
+
+typedef enum _Facing {
+    kFacingNorth,
+    kFacingSouth,
+    kFacingEast,
+    kFacingWest
+}Facing; 
 
 #define kMoveInterval (750.f)
 
@@ -35,8 +52,12 @@ typedef enum _MovingInDirection {
     MovingInDirection moveDirection;
     float zPosition;
     float xPosition;
+    float lookAtX;
+    float lookAtZ;
     double moveBegan;
-    
+
+    Facing facing;
+
     EAGLContext *glContext;
 
     GLuint _vertexArray;
