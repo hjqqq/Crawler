@@ -12,6 +12,7 @@
 #import "CrawlerMapViewDelegate.h"
 #import "MapHighlightView.h"
 #import "MapEditCamera.h"
+#import "MobileDelegate.h"
 #import <GLKit/GLKit.h>
 
 typedef enum _AnimateInFrom {
@@ -38,25 +39,29 @@ typedef enum _TurningToward {
     kTurningWest
 }TurningToward;
 
-typedef enum _Facing {
-    kFacingNorth,
-    kFacingSouth,
-    kFacingEast,
-    kFacingWest
-}Facing; 
+typedef enum _AnimationDirection {
+    
+    kAnimationNorth,
+    kAnimationSouth,
+    kAnimationEast,
+    kAnimationWest,
+    kAnimationLeft,
+    kAnimationRight
+    
+} AnimationDirection;
+
 
 #define kMoveInterval (750.f)
 
-@interface CrawlerMapViewController : UIViewController <UIPickerViewDataSource, UIPickerViewDelegate, CrawlerMapViewDelegate, GLKViewDelegate> {
+@interface CrawlerMapViewController : UIViewController <MobileDelegate, UIPickerViewDataSource, UIPickerViewDelegate, GLKViewDelegate> {
     
-    MovingInDirection moveDirection;
+    AnimationDirection animationDirection;
+    
     float zPosition;
     float xPosition;
     float lookAtX;
     float lookAtZ;
     double moveBegan;
-
-    Facing facing;
 
     EAGLContext *glContext;
 

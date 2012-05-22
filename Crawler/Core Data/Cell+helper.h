@@ -17,4 +17,6 @@
 
 + (void)newClosedCellInMap:(Map *)map tagged:(int)tag withMoc:(NSManagedObjectContext *)moc;
 
+- (BOOL)isOpen;
+- (void)makeCellOpen:(BOOL)open;
 @end

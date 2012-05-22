@@ -100,12 +100,6 @@ const GLubyte Indices[] = {
     glVertexAttribPointer(GLKVertexAttribColor, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid *) offsetof(Vertex, Color));
     
     glBindVertexArrayOES(0);
-    
-    zPosition = 0.5;
-    xPosition = 1.f;
-    lookAtX = 0;
-    lookAtZ = -1;
-    facing = kFacingNorth;
 }
 
 - (void)tearDownGL {
@@ -117,22 +111,83 @@ const GLubyte Indices[] = {
     effect = nil;
 }
 
+#pragma mark -
+#pragma mark OpenGL drawing
+
 GLKMatrix4 viewMatrix;
 
 static BOOL inline closeToZero(double testValue) {
-
+    
     if(testValue < 0.001)
         return YES;
     return NO;
 }
 
-// handle moving the view matrix in response to movement commands
+
+// set up the view matrix for a viewpoint animation
 - (void)render:(CADisplayLink*)displayLink {
     
     float xIncomplete;
     float zIncomplete;
-    static TurningToward turningToward = kNoDirectionSet;
+//    static TurningToward turningToward = kNoDirectionSet;
     
+    // maybe there's no move on
+    if(!closeToZero(moveBegan)) {
+        
+        NSTimeInterval moveNow = [[NSDate date] timeIntervalSince1970] * 1000;
+        
+        double moveElapsed = moveNow - moveBegan;
+        if(moveElapsed > kMoveInterval) {   // the animation is complete, finalise it
+            
+            switch(animationDirection) {
+                case kAnimationNorth:
+                    zPosition -= 1;
+                    break;
+                case kAnimationSouth:
+                    zPosition += 1;
+                    break;
+                case kAnimationEast:
+                    xPosition += 1;
+                    break;
+                case kAnimationWest:
+                    xPosition -= 1;
+                    break;
+                case kAnimationLeft:
+                    break;
+                case kAnimationRight:
+                    break;
+            }
+            moveBegan = 0.f;
+            xIncomplete = zIncomplete = 0.f;
+
+        } else {    // continue the animation's progress
+            float fractionalMove = moveElapsed * 1.f / kMoveInterval;
+            switch(animationDirection) {
+                case kAnimationNorth:
+                    zIncomplete = -fractionalMove;
+                    break;
+                case kAnimationSouth:
+                    zIncomplete = fractionalMove;
+                    break;
+                case kAnimationEast:
+                    xIncomplete = fractionalMove;
+                    break;
+                case kAnimationWest:
+                    xIncomplete = -fractionalMove;
+                    break;
+                case kAnimationLeft:
+                    break;
+                case kAnimationRight:
+                    break;
+            }
+        }
+    }
+    viewMatrix = GLKMatrix4MakeLookAt(xPosition + xIncomplete, 0, zPosition + zIncomplete,
+                                      xPosition + xIncomplete + lookAtX, 0, zPosition + zIncomplete + lookAtZ,
+                                      0, 1, 0);
+    [previewCellView display];
+    
+#if 0    
     if(!closeToZero(moveBegan)) {
         // viewMatrix is moving
         NSTimeInterval moveNow = [[NSDate date] timeIntervalSince1970] * 1000;
@@ -224,21 +279,21 @@ static BOOL inline closeToZero(double testValue) {
                             turningToward = kTurningSouth;
                         }
                     }
-                        
+                    
                     if(turningToward == kTurningEast){
-
+                        
                         lookAtX = fractionalMove;
                         lookAtZ = 1.f - fractionalMove;
                     } else if(turningToward == kTurningWest) {
-
+                        
                         lookAtX = -fractionalMove;
                         lookAtZ = -1 + fractionalMove;
                     } else if(turningToward == kTurningNorth) {
-
+                        
                         lookAtX = 1 - fractionalMove;
                         lookAtZ = -fractionalMove;
                     } else {
-
+                        
                         lookAtX = -1 + fractionalMove;
                         lookAtZ = fractionalMove;
                     }
@@ -257,21 +312,21 @@ static BOOL inline closeToZero(double testValue) {
                             turningToward = kTurningNorth;
                         }
                     }
-
+                    
                     if(turningToward == kTurningWest) {
-
+                        
                         lookAtX = - fractionalMove;
                         lookAtZ = 1 - fractionalMove;
                     } else if(turningToward == kTurningEast) {
-
+                        
                         lookAtX = fractionalMove;
                         lookAtZ = -1 + fractionalMove;
                     } else if(turningToward == kTurningSouth) {
-
+                        
                         lookAtX = 1 - fractionalMove;
                         lookAtZ = fractionalMove;
                     } else {
-
+                        
                         lookAtX = -1 + fractionalMove;
                         lookAtZ = - fractionalMove;
                     }
@@ -279,11 +334,59 @@ static BOOL inline closeToZero(double testValue) {
             }
         }
     }
-    viewMatrix = GLKMatrix4MakeLookAt(xPosition + xIncomplete, 0, zPosition + zIncomplete,
-                                      xPosition + xIncomplete + lookAtX, 0, zPosition + zIncomplete + lookAtZ,
-                                      0, 1, 0);
-    [previewCellView display];
+#endif
 }
+#pragma mark -
+#pragma mark MobileDelegate methods
+
+// check under what conditions a move is possible and what its time cost is
+- (MovePossible)checkMoveCost:(int *)ms {
+    
+    // query the map object for conditions of movement to the indicated tag and the cost of movement
+    return kMovePossible;
+}
+
+- (void)wasFacing:(Direction)wasFacing turnToFace:(Direction)facing {
+    
+}
+
+#if 0
+// rotate the view over the arc required to face in a new direction
+- (void)setNewFacing:(Facing)facing {
+    
+    // the Mobile is rotating, initiate rotation animation
+    moveBegan = [[NSDate date] timeIntervalSince1970] * 1000.0; // record time began in milliseconds
+    if(facing == kDirectionNorth) {
+        
+    } else if(facing == kDirectionSouth) {
+        
+    } else if(facing == kDirectionEast) {
+        
+    } else if(facing == kDirectionWest) {
+        
+    }
+    
+    if(direction == kDirectionNorth)
+        animationDirection = kAnimationNorth;
+    else if(direction == kDirectionSouth)
+        
+        }
+#endif
+// move in the indicated direction
+- (void)moveDirection:(Direction)direction {
+    
+    // the Mobile is moving in the indicated direction, initiate move animation
+    moveBegan = [[NSDate date] timeIntervalSince1970] * 1000.0; // record time began in milliseconds
+    if(direction == kDirectionNorth)
+        animationDirection = kAnimationNorth;
+    else if(direction == kDirectionSouth)
+        animationDirection = kAnimationSouth;
+    else if(direction == kDirectionEast)
+        animationDirection = kAnimationEast;
+    else if(direction == kDirectionWest)
+        animationDirection = kAnimationWest;
+}
+
 
 
 #pragma mark -
@@ -303,31 +406,31 @@ static BOOL inline closeToZero(double testValue) {
     effect.transform.modelviewMatrix = viewMatrix;
     [effect prepareToDraw];
     glDrawElements(GL_TRIANGLES, sizeof(Indices)/sizeof(Indices[0]), GL_UNSIGNED_BYTE, 0);
-
+    
     // wall to right
     GLKMatrix4 rightWall = GLKMatrix4RotateY(viewMatrix, -M_PI_2);
     effect.transform.modelviewMatrix = rightWall;
     [effect prepareToDraw];
     glDrawElements(GL_TRIANGLES, sizeof(Indices)/sizeof(Indices[0]), GL_UNSIGNED_BYTE, 0);
-
+    
     // wall to left
     GLKMatrix4 leftWall = GLKMatrix4RotateY(viewMatrix, M_PI_2);
     effect.transform.modelviewMatrix = leftWall;
     [effect prepareToDraw];
     glDrawElements(GL_TRIANGLES, sizeof(Indices)/sizeof(Indices[0]), GL_UNSIGNED_BYTE, 0);
-
+    
     // floor
     GLKMatrix4 floor = GLKMatrix4RotateX(viewMatrix, -M_PI_2);
     effect.transform.modelviewMatrix = floor;
     [effect prepareToDraw];
     glDrawElements(GL_TRIANGLES, sizeof(Indices)/sizeof(Indices[0]), GL_UNSIGNED_BYTE, 0);
-
+    
     // ceiling
     GLKMatrix4 ceiling = GLKMatrix4RotateX(viewMatrix, M_PI_2);
     effect.transform.modelviewMatrix = ceiling;
     [effect prepareToDraw];
     glDrawElements(GL_TRIANGLES, sizeof(Indices)/sizeof(Indices[0]), GL_UNSIGNED_BYTE, 0);
-
+    
     // behind
     GLKMatrix4 behind = GLKMatrix4RotateX(viewMatrix, M_PI);
     effect.transform.modelviewMatrix = behind;
@@ -351,7 +454,7 @@ static BOOL inline closeToZero(double testValue) {
     mapHighlightView.hidden = YES;
     
     mapEditCamera = [[MapEditCamera alloc] init];
-    mapEditCamera.viewDelegate = mapHighlightView;
+    mapEditCamera.controllerDelegate = self;
     
     [self setupGL];
 }
@@ -391,20 +494,18 @@ static BOOL inline closeToZero(double testValue) {
     
     if(detailModeSwitch.on == NO) {
         
-        uint64_t meta = [cell.meta unsignedLongValue];
-        
-        if(meta & kCellMetaIsOpen) {
-            meta &= ~kCellMetaIsOpen;
+        if([cell isOpen]) {
+            [cell makeCellOpen:NO];
         } else {
-            meta |= kCellMetaIsOpen;
+            [cell makeCellOpen:YES];
         }
-        cell.meta = [NSNumber numberWithUnsignedLong:meta];
+        
         [_moc save:&error];
         [mapView updateCellWithTag:tag];
         
     } else {
         // set mapEditCamera to selected position
-        mapEditCamera.tag = tag;
+//        mapEditCamera.tag = tag;
         [mapHighlightView updatePositionByTag:tag];
     }
 }
@@ -535,10 +636,32 @@ static BOOL inline closeToZero(double testValue) {
                    forState:UIControlStateNormal];
         [mapView mapForDisplay:nil];
     } else {
+        // switching to a new map, lots of things happen - save map pointer to currentMap
         currentMap = map;
+        
+        // display titles etc.
         [mapButton setTitle:map.name
                    forState:UIControlStateNormal];
+        
+        // find the starting position for this map
+        int startTag = [map startingCell];
+        
+        // initialise the mapView
         [mapView mapForDisplay:map];
+        
+        // position the preview camera "Mobile"
+        [mapEditCamera setPosition:startTag facing:kDirectionNorth];
+        
+        // record the current 3D position and view direction
+        xPosition = startTag % kMapCellsHorizontal;
+        zPosition = startTag / kMapCellsHorizontal;
+        lookAtX = 0;
+        lookAtZ = -1;
+        
+        // initialise anything required for the draw loop
+        
+        // previewCellView appears
+        previewCellView.hidden = NO;
     }
 }
 
@@ -678,104 +801,31 @@ static BOOL inline closeToZero(double testValue) {
     moveBegan = [[NSDate date] timeIntervalSince1970] * 1000.0; // record time began in milliseconds
 }
 
+#pragma mark -
+#pragma mark - Movement keys in map view controller are sent to the map edit camera
+
 - (IBAction)turnLeft:(UIButton *)sender {
-    if(closeToZero(moveBegan)) {
-        moveDirection = kRotatingLeft;
-        [self beginMove];
-        [mapEditCamera turnLeft];
-    }
+    [mapEditCamera turnLeft];
 }
 
 - (IBAction)turnRight:(UIButton *)sender {
-    if(closeToZero(moveBegan)) {
-        moveDirection = kRotatingRight;
-        [self beginMove];
-        [mapEditCamera turnRight];
-    }
+    [mapEditCamera turnRight];
 }
 
 - (IBAction)strafeLeft:(UIButton *)sender {
-    if(closeToZero(moveBegan)) {
-        switch(facing) {
-            case kFacingNorth:
-                moveDirection = kMovingXNegative;
-                break;
-            case kFacingSouth:
-                moveDirection = kMovingXPositive;
-                break;
-            case kFacingEast:
-                moveDirection = kMovingZNegative;
-                break;
-            case kFacingWest:
-                moveDirection = kMovingZPositive;
-                break;
-        }
-        [self beginMove];
-        [mapEditCamera strafeLeft];
-    }
+    [mapEditCamera strafeLeft];
 }
 
 - (IBAction)strafeRight:(UIButton *)sender {
-    if(closeToZero(moveBegan)) {
-        switch(facing) {
-            case kFacingNorth:
-                moveDirection = kMovingXPositive;
-                break;
-            case kFacingSouth:
-                moveDirection = kMovingXNegative;
-                break;
-            case kFacingEast:
-                moveDirection = kMovingZPositive;
-                break;
-            case kFacingWest:
-                moveDirection = kMovingZNegative;
-                break;
-        }
-        [self beginMove];
-        [mapEditCamera strafeRight];
-    }
+    [mapEditCamera strafeRight];
 }
 
 - (IBAction)moveForward:(UIButton *)sender {
-    if(closeToZero(moveBegan)) {
-        switch(facing) {
-            case kFacingNorth:
-                moveDirection = kMovingZNegative;
-                break;
-            case kFacingSouth:
-                moveDirection = kMovingZPositive;
-                break;
-            case kFacingEast:
-                moveDirection = kMovingXPositive;
-                break;
-            case kFacingWest:
-                moveDirection = kMovingXNegative;
-                break;
-        }
-        [self beginMove];
-        [mapEditCamera moveForward];
-    }
+    [mapEditCamera moveForward];
 }
 
 - (IBAction)moveBack:(UIButton *)sender {
-    if(closeToZero(moveBegan)) {
-        switch(facing) {
-            case kFacingNorth:
-                moveDirection = kMovingZPositive;
-                break;
-            case kFacingSouth:
-                moveDirection = kMovingZNegative;
-                break;
-            case kFacingEast:
-                moveDirection = kMovingXNegative;
-                break;
-            case kFacingWest:
-                moveDirection = kMovingXPositive;
-                break;
-        }
-        [self beginMove];
-        [mapEditCamera moveBack];
-    }
+    [mapEditCamera moveBack];
 }
 
 - (IBAction)detailModeSwitch:(UISwitch *)sender {

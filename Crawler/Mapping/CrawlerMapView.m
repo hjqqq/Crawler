@@ -58,7 +58,7 @@ static inline float radians(double degrees) { return degrees * M_PI / 180; }
 - (void)drawRect:(CGRect)rect
 {    
     CGContextRef ctx = UIGraphicsGetCurrentContext();
-
+    
     if(cellsArray == nil) {
         [[UIColor grayColor] setFill];
         CGContextFillRect(ctx, self.bounds);
@@ -67,12 +67,12 @@ static inline float radians(double degrees) { return degrees * M_PI / 180; }
         // the view is divided into Cells with each Cell having dimension of (frame.size.width / kMapCellsHorizontal)
         // and frame.size.height / kMapCellsVertical. There may be some view left over which doesn't matter.
         int tag = 0;
-
+        
         for(int y = 0; y < kMapCellsVertical; y++) {
             for(int x = 0; x < kMapCellsHorizontal; x++) {
-        
+                
                 Cell *cell = [cellsArray objectAtIndex:tag];
-                if([cell.meta intValue] & kCellMetaIsOpen) {
+                if([cell isOpen]) {
                     [[UIColor blueColor] setFill];
                 } else {
                     [[UIColor yellowColor] setFill];

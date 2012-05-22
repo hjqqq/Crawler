@@ -16,4 +16,25 @@
     cell.tag = [NSNumber numberWithInt:tag];
     cell.meta = [NSNumber numberWithInt:kCellMetaEmptyUnused];
 }
+
+- (BOOL)isOpen {
+    
+    if([self.meta intValue] & kCellMetaIsOpen) 
+        return YES;
+    return NO;
+}
+
+- (void)makeCellOpen:(BOOL)open {
+    
+    uint64_t meta = [self.meta unsignedLongValue];
+    
+    if(meta & kCellMetaIsOpen) {
+        meta &= ~kCellMetaIsOpen;
+    } else {
+        meta |= kCellMetaIsOpen;
+    }
+    self.meta = [NSNumber numberWithUnsignedLong:meta];
+
+}
+
 @end

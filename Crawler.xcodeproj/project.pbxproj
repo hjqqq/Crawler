@@ -40,7 +40,7 @@
 		661EEAA81557E65B00593039 /* MapHighlightView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MapHighlightView.h; path = Mapping/MapHighlightView.h; sourceTree = "<group>"; };
 		661EEAA91557E65B00593039 /* MapHighlightView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MapHighlightView.m; path = Mapping/MapHighlightView.m; sourceTree = "<group>"; };
 		661EEAAC1557EA4A00593039 /* MapStuff.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MapStuff.h; path = Mapping/MapStuff.h; sourceTree = "<group>"; };
-		661EEAAD1557EB2300593039 /* MapEditCameraDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MapEditCameraDelegate.h; path = Mapping/MapEditCameraDelegate.h; sourceTree = "<group>"; };
+		661EEAAD1557EB2300593039 /* MobileDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MobileDelegate.h; path = Mapping/MobileDelegate.h; sourceTree = "<group>"; };
 		66392127154AC25A00822595 /* tile_floor.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tile_floor.png; sourceTree = "<group>"; };
 		668A68FC15412C7C00FED6F9 /* CrawlerMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CrawlerMapViewController.h; path = Mapping/CrawlerMapViewController.h; sourceTree = "<group>"; };
 		668A68FD15412C7C00FED6F9 /* CrawlerMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CrawlerMapViewController.m; path = Mapping/CrawlerMapViewController.m; sourceTree = "<group>"; };
@@ -101,7 +101,7 @@
 				661EEA9F1557D9E800593039 /* Mobile.m */,
 				661EEAA11557DA4F00593039 /* MapEditCamera.h */,
 				661EEAA21557DA4F00593039 /* MapEditCamera.m */,
-				661EEAAD1557EB2300593039 /* MapEditCameraDelegate.h */,
+				661EEAAD1557EB2300593039 /* MobileDelegate.h */,
 			);
 			name = Mobiles;
 			sourceTree = "<group>";

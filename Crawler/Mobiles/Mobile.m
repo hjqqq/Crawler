@@ -13,10 +13,153 @@
 
 @implementation Mobile
 
+@synthesize controllerDelegate;
+
 - (id)init {
     
     if((self = [super init])) {
     }
     return self;
 }
+
+- (void)moveNorth {
+    
+    int cost;
+    if([controllerDelegate checkMoveCost:&cost] == kMovePossible) {
+        [controllerDelegate moveDirection:kDirectionNorth];
+    }
+}
+
+- (void)moveSouth {
+    
+    int cost;
+    if([controllerDelegate checkMoveCost:&cost] == kMovePossible) {
+        [controllerDelegate moveDirection:kDirectionSouth];
+    }
+}
+
+- (void)moveEast {
+    int cost;
+    if([controllerDelegate checkMoveCost:&cost] == kMovePossible) {
+        [controllerDelegate moveDirection:kDirectionEast];
+    }
+}
+
+- (void)moveWest {
+    int cost;
+    if([controllerDelegate checkMoveCost:&cost] == kMovePossible) {
+        [controllerDelegate moveDirection:kDirectionWest];
+    }
+}
+
+#pragma mark -
+#pragma mark Public methods
+
+- (Direction)currentlyFacing {
+    return facing;
+}
+
+- (void)setPosition:(int)cellId facing:(Direction)direction {
+    
+    cellIdentifier = cellId;
+    facing = direction;
+}
+
+- (void)strafeLeft {
+    switch(facing) {
+        case kDirectionNorth:
+            [self moveWest];
+            break;
+        case kDirectionEast:
+            [self moveNorth];
+            break;
+        case kDirectionSouth:
+            [self moveEast];
+            break;
+        case kDirectionWest:
+            [self moveSouth];
+            break;
+    }
+}
+
+- (void)strafeRight {
+    switch(facing) {
+        case kDirectionNorth:
+            [self moveEast];
+            break;
+        case kDirectionWest:
+            [self moveSouth];
+            break;
+        case kDirectionSouth:
+            [self moveWest];
+            break;
+        case kDirectionEast:
+            [self moveNorth];
+            break;
+    }
+}
+
+
+- (void)moveForward {
+    switch(facing) {
+        case kDirectionNorth:
+            [self moveNorth];
+            break;
+        case kDirectionEast:
+            [self moveEast];
+            break;
+        case kDirectionSouth:
+            [self moveSouth];
+            break;
+        case kDirectionWest:
+            [self moveWest];
+            break;
+    }
+}
+
+- (void)moveBack {
+    switch(facing) {
+        case kDirectionNorth:
+            [self moveSouth];
+            break;
+        case kDirectionEast:
+            [self moveWest];
+            break;
+        case kDirectionSouth:
+            [self moveNorth];
+            break;
+        case kDirectionWest:
+            [self moveEast];
+            break;
+    }
+}
+
+- (void)turnLeft {
+    
+    Direction wasFacing = facing;
+
+    if(facing == kDirectionNorth)
+        facing = kDirectionWest;
+    else {
+        facing--;
+    }
+    [controllerDelegate wasFacing:wasFacing turnToFace:facing];
+}
+
+- (void)turnRight {
+    
+    Direction wasFacing = facing;
+
+    if(facing == kDirectionWest)
+        facing = kDirectionNorth;
+    else {
+        facing++;
+    }
+    [controllerDelegate wasFacing:wasFacing turnToFace:facing];
+}
+
+- (void)moveComplete {
+    
+}
+
 @end

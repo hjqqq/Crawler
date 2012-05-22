@@ -8,15 +8,15 @@
 
 #import <UIKit/UIKit.h>
 #import "MapStuff.h"
-#import "MapEditCameraDelegate.h"
+#import "MobileDelegate.h"
 
-@interface MapHighlightView : UIView <MapEditCameraDelegate> {
+@interface MapHighlightView : UIView {
 
     CGPoint tagZeroOrigin;
     CGFloat rotation;
 }
 
-@property CellDirection facing;
+@property Direction facing;
 
 - (void)updatePositionByTag:(int)tag;
 

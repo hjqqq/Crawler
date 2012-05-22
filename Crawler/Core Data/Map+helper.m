@@ -8,6 +8,7 @@
 
 #import "Map+helper.h"
 #import "Cell.h"
+#import "Cell+helper.h"
 
 @implementation Map (helper)
 
@@ -25,5 +26,15 @@
             return (NSComparisonResult)NSOrderedSame;
         }
     }];
+}
+
+// return the integer identifier of the map's starting cell (initial position for Mobile)
+- (int)startingCell {
+    NSArray *cells = [self allCellsOrderedByTag];
+    for(Cell *cell in cells) {
+        if([cell isOpen])
+            return [cell.meta intValue];
+    }
+    return 0;
 }
 @end
