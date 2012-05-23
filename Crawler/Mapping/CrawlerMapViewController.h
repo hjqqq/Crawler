@@ -56,7 +56,7 @@ typedef enum _AnimationDirection {
 @interface CrawlerMapViewController : UIViewController <MobileDelegate, UIPickerViewDataSource, UIPickerViewDelegate, GLKViewDelegate> {
     
     AnimationDirection animationDirection;
-    
+    Direction   newFacing;
     float zPosition;
     float xPosition;
     float lookAtX;

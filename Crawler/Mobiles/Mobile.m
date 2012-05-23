@@ -87,13 +87,13 @@
         case kDirectionNorth:
             [self moveEast];
             break;
-        case kDirectionWest:
+        case kDirectionEast:
             [self moveSouth];
             break;
         case kDirectionSouth:
             [self moveWest];
             break;
-        case kDirectionEast:
+        case kDirectionWest:
             [self moveNorth];
             break;
     }
@@ -138,23 +138,31 @@
     
     Direction wasFacing = facing;
 
-    if(facing == kDirectionNorth)
+    if(wasFacing == kDirectionNorth)
         facing = kDirectionWest;
-    else {
-        facing--;
-    }
+    else if(wasFacing == kDirectionWest)
+        facing = kDirectionSouth;
+    else if(wasFacing == kDirectionSouth)
+        facing = kDirectionEast;
+    else if(wasFacing == kDirectionEast)
+        facing = kDirectionNorth;
+
     [controllerDelegate wasFacing:wasFacing turnToFace:facing];
 }
 
 - (void)turnRight {
     
     Direction wasFacing = facing;
-
-    if(facing == kDirectionWest)
+    
+    if(wasFacing == kDirectionNorth)
+        facing = kDirectionEast;
+    else if(wasFacing == kDirectionEast)
+        facing = kDirectionSouth;
+    else if(wasFacing == kDirectionSouth)
+        facing = kDirectionWest;
+    else if(wasFacing == kDirectionWest)
         facing = kDirectionNorth;
-    else {
-        facing++;
-    }
+    
     [controllerDelegate wasFacing:wasFacing turnToFace:facing];
 }
 

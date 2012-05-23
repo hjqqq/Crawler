@@ -129,8 +129,7 @@ static BOOL inline closeToZero(double testValue) {
     
     float xIncomplete;
     float zIncomplete;
-//    static TurningToward turningToward = kNoDirectionSet;
-    
+
     // maybe there's no move on
     if(!closeToZero(moveBegan)) {
         
@@ -138,7 +137,7 @@ static BOOL inline closeToZero(double testValue) {
         
         double moveElapsed = moveNow - moveBegan;
         if(moveElapsed > kMoveInterval) {   // the animation is complete, finalise it
-            
+
             switch(animationDirection) {
                 case kAnimationNorth:
                     zPosition -= 1;
@@ -152,14 +151,31 @@ static BOOL inline closeToZero(double testValue) {
                 case kAnimationWest:
                     xPosition -= 1;
                     break;
-                case kAnimationLeft:
-                    break;
+                case kAnimationLeft:    // fall through - same finishing position for both direction turns
                 case kAnimationRight:
+                    switch(newFacing) {
+                        case kDirectionNorth:
+                            lookAtX = 0.f;
+                            lookAtZ = -1.f;
+                            break;
+                        case kDirectionWest:
+                            lookAtX = -1.f;
+                            lookAtZ = 0.f;
+                            break;
+                        case kDirectionSouth:
+                            lookAtX = 0.f;
+                            lookAtZ = 1.f;
+                            break;
+                        case kDirectionEast:
+                            lookAtX = 1.f;
+                            lookAtZ = 0.f;
+                            break;
+                    }
                     break;
             }
             moveBegan = 0.f;
             xIncomplete = zIncomplete = 0.f;
-
+            
         } else {    // continue the animation's progress
             float fractionalMove = moveElapsed * 1.f / kMoveInterval;
             switch(animationDirection) {
@@ -175,9 +191,48 @@ static BOOL inline closeToZero(double testValue) {
                 case kAnimationWest:
                     xIncomplete = -fractionalMove;
                     break;
+                // in the following cases for Left and Right animations, the first LookAt affected is the
+                // direction turning toward, the second turning away.
                 case kAnimationLeft:
+                    switch(newFacing) {
+                        case kDirectionNorth:
+                            lookAtZ = -fractionalMove;
+                            lookAtX = 1 - fractionalMove;
+                            break;
+                        case kDirectionEast:
+                            lookAtX = fractionalMove;
+                            lookAtZ = 1 - fractionalMove;
+                            break;
+                        case kDirectionSouth:
+                            lookAtZ = fractionalMove;
+                            lookAtX = -1 + fractionalMove;
+                            break;
+                        case kDirectionWest:
+                            lookAtX = -fractionalMove;
+                            lookAtZ = -1 + fractionalMove;
+                            break;
+                    }
                     break;
+                    
                 case kAnimationRight:
+                    switch(newFacing) {
+                        case kDirectionNorth:
+                            lookAtZ = -fractionalMove;
+                            lookAtX = -1 + fractionalMove;
+                            break;
+                        case kDirectionEast:
+                            lookAtX = fractionalMove;
+                            lookAtZ = -1 + fractionalMove;
+                            break;
+                        case kDirectionSouth:
+                            lookAtZ = fractionalMove;
+                            lookAtX = 1 - fractionalMove;
+                            break;
+                        case kDirectionWest:
+                            lookAtX = -fractionalMove;
+                            lookAtZ = 1 - fractionalMove;
+                            break;
+                    }
                     break;
             }
         }
@@ -186,156 +241,20 @@ static BOOL inline closeToZero(double testValue) {
                                       xPosition + xIncomplete + lookAtX, 0, zPosition + zIncomplete + lookAtZ,
                                       0, 1, 0);
     [previewCellView display];
-    
-#if 0    
-    if(!closeToZero(moveBegan)) {
-        // viewMatrix is moving
-        NSTimeInterval moveNow = [[NSDate date] timeIntervalSince1970] * 1000;
-        
-        double moveElapsed = moveNow - moveBegan;
-        if(moveElapsed > kMoveInterval) {
-            // the move is complete
-            switch(moveDirection) {
-                case kMovingZPositive:
-                    zPosition += 1;
-                    break;
-                case kMovingZNegative:
-                    zPosition -= 1;
-                    break;
-                case kMovingXPositive:
-                    xPosition += 1;
-                    break;
-                case kMovingXNegative:
-                    xPosition -= 1;
-                    break;
-                case kRotatingLeft:
-                    if(turningToward == kTurningEast) {
-                        facing = kFacingEast;
-                        lookAtX = 1.f;
-                        lookAtZ = 0.f;
-                    } else if(turningToward == kTurningWest) {
-                        facing = kFacingWest;
-                        lookAtX = -1.f;
-                        lookAtZ = 0.f;
-                    } else if(turningToward == kTurningNorth) {
-                        facing = kFacingNorth;
-                        lookAtX = 0.f;
-                        lookAtZ = -1.f;
-                    } else {
-                        facing = kFacingSouth;
-                        lookAtX = 0.f;
-                        lookAtZ = 1.f;
-                    }
-                    break;
-                case kRotatingRight:
-                    if(turningToward == kTurningWest){
-                        facing = kFacingWest;
-                        lookAtX = -1.f;
-                        lookAtZ = 0.f;
-                    } else if(turningToward == kTurningEast) {
-                        facing = kFacingEast;
-                        lookAtX = 1.f;
-                        lookAtZ = 0.f;
-                    } else if(turningToward == kTurningSouth) {
-                        facing = kFacingSouth;
-                        lookAtX = 0.f;
-                        lookAtZ = 1.f;
-                    } else {
-                        facing = kFacingNorth;
-                        lookAtX = 0.f;
-                        lookAtZ = -1.f;
-                    }
-                    break;
-            }
-            moveBegan = 0.f;
-            xIncomplete = zIncomplete = 0.f;
-            turningToward = kNoDirectionSet;
-            
-        } else {
-            float fractionalMove = moveElapsed * 1.f / kMoveInterval;
-            switch(moveDirection) {
-                case kMovingZPositive:
-                    zIncomplete = fractionalMove;
-                    break;
-                case kMovingZNegative:
-                    zIncomplete = -fractionalMove;
-                    break;
-                case kMovingXPositive:
-                    xIncomplete = fractionalMove;
-                    break;
-                case kMovingXNegative:
-                    xIncomplete = -fractionalMove;
-                    break;
-                case kRotatingLeft:
-                    
-                    if(turningToward == kNoDirectionSet) {
-                        if(lookAtZ > 0.5f){
-                            turningToward = kTurningEast;
-                        } else if(lookAtZ < -0.5f) {
-                            turningToward = kTurningWest;
-                        } else if(lookAtX > 0.5f) {
-                            turningToward = kTurningNorth;
-                        } else {
-                            turningToward = kTurningSouth;
-                        }
-                    }
-                    
-                    if(turningToward == kTurningEast){
-                        
-                        lookAtX = fractionalMove;
-                        lookAtZ = 1.f - fractionalMove;
-                    } else if(turningToward == kTurningWest) {
-                        
-                        lookAtX = -fractionalMove;
-                        lookAtZ = -1 + fractionalMove;
-                    } else if(turningToward == kTurningNorth) {
-                        
-                        lookAtX = 1 - fractionalMove;
-                        lookAtZ = -fractionalMove;
-                    } else {
-                        
-                        lookAtX = -1 + fractionalMove;
-                        lookAtZ = fractionalMove;
-                    }
-                    break;
-                    
-                case kRotatingRight:
-                    
-                    if(turningToward == kNoDirectionSet) {
-                        if(lookAtZ > 0.5f){
-                            turningToward = kTurningWest;
-                        } else if(lookAtZ < -0.5f) {
-                            turningToward = kTurningEast;
-                        } else if(lookAtX > 0.5f) {
-                            turningToward = kTurningSouth;
-                        } else {
-                            turningToward = kTurningNorth;
-                        }
-                    }
-                    
-                    if(turningToward == kTurningWest) {
-                        
-                        lookAtX = - fractionalMove;
-                        lookAtZ = 1 - fractionalMove;
-                    } else if(turningToward == kTurningEast) {
-                        
-                        lookAtX = fractionalMove;
-                        lookAtZ = -1 + fractionalMove;
-                    } else if(turningToward == kTurningSouth) {
-                        
-                        lookAtX = 1 - fractionalMove;
-                        lookAtZ = fractionalMove;
-                    } else {
-                        
-                        lookAtX = -1 + fractionalMove;
-                        lookAtZ = - fractionalMove;
-                    }
-                    break;
-            }
-        }
-    }
-#endif
 }
+
+- (void)processMove {
+    // the Mobile is moving in the indicated direction, initiate move animation
+    moveBegan = [[NSDate date] timeIntervalSince1970] * 1000.0; // record time began in milliseconds
+    
+    // the map determines what the final position and direction is (teleport, rotate, slides...)
+    // [map 
+
+    // set resulting position and direction for mobile
+    // (position is ignored so far but will become important when actually checking moves)
+    [mapEditCamera setPosition:0 facing:newFacing];
+}
+
 #pragma mark -
 #pragma mark MobileDelegate methods
 
@@ -346,37 +265,63 @@ static BOOL inline closeToZero(double testValue) {
     return kMovePossible;
 }
 
-- (void)wasFacing:(Direction)wasFacing turnToFace:(Direction)facing {
-    
+- (NSString *)directionStr:(Direction)direction {
+
+    switch(direction) {
+        case kDirectionNorth:
+            return @"North";
+            break;
+        case kDirectionEast:
+            return @"East";
+            break;
+        case kDirectionSouth:
+            return @"South";
+            break;
+        case kDirectionWest:
+            return @"West";
+            break;
+    }
 }
 
-#if 0
-// rotate the view over the arc required to face in a new direction
-- (void)setNewFacing:(Facing)facing {
+- (void)wasFacing:(Direction)wasFacing turnToFace:(Direction)facing {
     
-    // the Mobile is rotating, initiate rotation animation
-    moveBegan = [[NSDate date] timeIntervalSince1970] * 1000.0; // record time began in milliseconds
-    if(facing == kDirectionNorth) {
-        
-    } else if(facing == kDirectionSouth) {
-        
-    } else if(facing == kDirectionEast) {
-        
-    } else if(facing == kDirectionWest) {
-        
+    switch(wasFacing) {
+        case kDirectionNorth:
+            if(facing == kDirectionWest) {
+                animationDirection = kAnimationLeft;
+            } else {
+                animationDirection = kAnimationRight;
+            }
+            break;
+        case kDirectionEast:
+            if(facing == kDirectionNorth) {
+                animationDirection = kAnimationLeft;
+            } else {
+                animationDirection = kAnimationRight;
+            }
+            break;
+        case kDirectionSouth:
+            if(facing == kDirectionEast) {
+                animationDirection = kAnimationLeft;
+            } else {
+                animationDirection = kAnimationRight;
+            }
+            break;
+        case kDirectionWest:
+            if(facing == kDirectionSouth) {
+                animationDirection = kAnimationLeft;
+            } else {
+                animationDirection = kAnimationRight;
+            }
+            break;
     }
-    
-    if(direction == kDirectionNorth)
-        animationDirection = kAnimationNorth;
-    else if(direction == kDirectionSouth)
-        
-        }
-#endif
+    newFacing = facing;
+    [self processMove];
+}
+
 // move in the indicated direction
 - (void)moveDirection:(Direction)direction {
     
-    // the Mobile is moving in the indicated direction, initiate move animation
-    moveBegan = [[NSDate date] timeIntervalSince1970] * 1000.0; // record time began in milliseconds
     if(direction == kDirectionNorth)
         animationDirection = kAnimationNorth;
     else if(direction == kDirectionSouth)
@@ -385,9 +330,9 @@ static BOOL inline closeToZero(double testValue) {
         animationDirection = kAnimationEast;
     else if(direction == kDirectionWest)
         animationDirection = kAnimationWest;
+    
+    [self processMove];
 }
-
-
 
 #pragma mark -
 #pragma mark GLKViewDelegate
@@ -505,7 +450,7 @@ static BOOL inline closeToZero(double testValue) {
         
     } else {
         // set mapEditCamera to selected position
-//        mapEditCamera.tag = tag;
+        //        mapEditCamera.tag = tag;
         [mapHighlightView updatePositionByTag:tag];
     }
 }
