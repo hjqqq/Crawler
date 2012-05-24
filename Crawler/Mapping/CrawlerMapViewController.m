@@ -345,43 +345,64 @@ static BOOL inline closeToZero(double testValue) {
     glClearColor(0.0, 0.0, 0.0, 1.0);
     glClear(GL_COLOR_BUFFER_BIT);
     glBindVertexArrayOES(_vertexArray);
-    
-    // rotation seems to pivot around the origin...
-    // wall in front
-    effect.transform.modelviewMatrix = viewMatrix;
-    [effect prepareToDraw];
-    glDrawElements(GL_TRIANGLES, sizeof(Indices)/sizeof(Indices[0]), GL_UNSIGNED_BYTE, 0);
-    
-    // wall to right
-    GLKMatrix4 rightWall = GLKMatrix4RotateY(viewMatrix, -M_PI_2);
-    effect.transform.modelviewMatrix = rightWall;
-    [effect prepareToDraw];
-    glDrawElements(GL_TRIANGLES, sizeof(Indices)/sizeof(Indices[0]), GL_UNSIGNED_BYTE, 0);
-    
-    // wall to left
-    GLKMatrix4 leftWall = GLKMatrix4RotateY(viewMatrix, M_PI_2);
-    effect.transform.modelviewMatrix = leftWall;
-    [effect prepareToDraw];
-    glDrawElements(GL_TRIANGLES, sizeof(Indices)/sizeof(Indices[0]), GL_UNSIGNED_BYTE, 0);
-    
-    // floor
-    GLKMatrix4 floor = GLKMatrix4RotateX(viewMatrix, -M_PI_2);
-    effect.transform.modelviewMatrix = floor;
-    [effect prepareToDraw];
-    glDrawElements(GL_TRIANGLES, sizeof(Indices)/sizeof(Indices[0]), GL_UNSIGNED_BYTE, 0);
-    
-    // ceiling
-    GLKMatrix4 ceiling = GLKMatrix4RotateX(viewMatrix, M_PI_2);
-    effect.transform.modelviewMatrix = ceiling;
-    [effect prepareToDraw];
-    glDrawElements(GL_TRIANGLES, sizeof(Indices)/sizeof(Indices[0]), GL_UNSIGNED_BYTE, 0);
-    
-    // behind
-    GLKMatrix4 behind = GLKMatrix4RotateX(viewMatrix, M_PI);
-    effect.transform.modelviewMatrix = behind;
-    [effect prepareToDraw];
-    glDrawElements(GL_TRIANGLES, sizeof(Indices)/sizeof(Indices[0]), GL_UNSIGNED_BYTE, 0);
-    
+
+    GLKMatrixStackRef stack = GLKMatrixStackCreate(kCFAllocatorDefault);
+
+    NSArray *cells = [currentMap allCellsOrderedByTag];
+    for(Cell *cell in cells) 
+    {
+        GLKMatrixStackPush(stack);
+
+        int cellTag = [cell.tag intValue];
+        float xPos = cellTag % kMapCellsHorizontal;
+        float zPos = cellTag / kMapCellsHorizontal;
+        
+        if(cellTag > 2)
+            break;
+        
+        // big arrays of cells draw fine but need to draw a cube appearing solid from the outside to
+        // build the maze.
+        
+        GLKMatrix4 positionedMatrix = GLKMatrix4Translate(viewMatrix, xPos, 0, zPos);
+        
+        // wall in front
+        effect.transform.modelviewMatrix = GLKMatrix4RotateY(positionedMatrix, M_PI);
+        [effect prepareToDraw];
+        glDrawElements(GL_TRIANGLES, sizeof(Indices)/sizeof(Indices[0]), GL_UNSIGNED_BYTE, 0);
+        
+        // wall to right
+        GLKMatrix4 rightWall = GLKMatrix4RotateY(positionedMatrix, -M_PI_2);
+        effect.transform.modelviewMatrix = rightWall;
+        [effect prepareToDraw];
+        glDrawElements(GL_TRIANGLES, sizeof(Indices)/sizeof(Indices[0]), GL_UNSIGNED_BYTE, 0);
+/*        
+        // wall to left
+        GLKMatrix4 leftWall = GLKMatrix4RotateY(positionedMatrix, M_PI_2);
+        effect.transform.modelviewMatrix = leftWall;
+        [effect prepareToDraw];
+        glDrawElements(GL_TRIANGLES, sizeof(Indices)/sizeof(Indices[0]), GL_UNSIGNED_BYTE, 0);
+        
+        // floor
+        GLKMatrix4 floor = GLKMatrix4RotateX(positionedMatrix, -M_PI_2);
+        effect.transform.modelviewMatrix = floor;
+        [effect prepareToDraw];
+        glDrawElements(GL_TRIANGLES, sizeof(Indices)/sizeof(Indices[0]), GL_UNSIGNED_BYTE, 0);
+        
+        // ceiling
+        GLKMatrix4 ceiling = GLKMatrix4RotateX(positionedMatrix, M_PI_2);
+        effect.transform.modelviewMatrix = ceiling;
+        [effect prepareToDraw];
+        glDrawElements(GL_TRIANGLES, sizeof(Indices)/sizeof(Indices[0]), GL_UNSIGNED_BYTE, 0);
+        
+        // behind
+        GLKMatrix4 behind = GLKMatrix4Translate(positionedMatrix, 0, 0, -1);
+        behind = GLKMatrix4RotateX(behind, M_PI);
+        effect.transform.modelviewMatrix = behind;
+        [effect prepareToDraw];
+        glDrawElements(GL_TRIANGLES, sizeof(Indices)/sizeof(Indices[0]), GL_UNSIGNED_BYTE, 0);
+*/
+        GLKMatrixStackPop(stack);
+    }
 }
 
 #pragma mark -
