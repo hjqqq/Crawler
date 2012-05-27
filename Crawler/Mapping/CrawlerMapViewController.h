@@ -57,8 +57,9 @@ typedef enum _AnimationDirection {
     
     AnimationDirection animationDirection;
     Direction   newFacing;
-    float zPosition;
     float xPosition;
+    float yPosition;
+    float zPosition;
     float lookAtX;
     float lookAtZ;
     double moveBegan;

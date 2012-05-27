@@ -31,9 +31,11 @@
 // return the integer identifier of the map's starting cell (initial position for Mobile)
 - (int)startingCell {
     NSArray *cells = [self allCellsOrderedByTag];
+    int cellNumber = 0;
     for(Cell *cell in cells) {
         if([cell isOpen])
-            return [cell.meta intValue];
+            return cellNumber;
+        cellNumber++;
     }
     return 0;
 }

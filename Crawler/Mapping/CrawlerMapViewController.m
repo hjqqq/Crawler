@@ -20,10 +20,10 @@ typedef struct {
 
 const Vertex Vertices[] = {
     // Front
-    {{-0.5, -0.5, -0.5}, {1, 0, 0, 1}, {1, 0}, {0, 0, 1}},
-    {{0.5, -0.5, -0.5}, {1, 0, 0, 1}, {1, 1}, {0, 0, 1}},
-    {{0.5, 0.5, -0.5}, {1, 0, 0, 1}, {0, 1}, {0, 0, 1}},
-    {{-0.5, 0.5, -0.5}, {1, 0, 0, 1}, {0, 0}, {0, 0, 1}}
+    {{0, 0, 0}, {1, 0, 0, 1}, {1, 0}, {0, 0, 1}},
+    {{1, 0, 0}, {1, 0, 0, 1}, {1, 1}, {0, 0, 1}},
+    {{1, 1, 0}, {1, 0, 0, 1}, {0, 1}, {0, 0, 1}},
+    {{0, 1, 0}, {1, 0, 0, 1}, {0, 0}, {0, 0, 1}}
 };
 
 const GLubyte Indices[] = {
@@ -59,7 +59,10 @@ const GLubyte Indices[] = {
     glContext = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
     previewCellView.context = glContext;
     [EAGLContext setCurrentContext:previewCellView.context];
+
+    //glEnable(GL_DEPTH_TEST);
     glEnable(GL_CULL_FACE);
+    
     glGenBuffers(1, &_vertexBuffer);
     glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer);
     glBufferData(GL_ARRAY_BUFFER, sizeof(Vertices), Vertices, GL_STATIC_DRAW);
@@ -91,7 +94,7 @@ const GLubyte Indices[] = {
     [displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
     
     float aspect = fabsf(previewCellView.bounds.size.width / previewCellView.bounds.size.height);
-    GLKMatrix4 projectionMatrix = GLKMatrix4MakePerspective(GLKMathDegreesToRadians(85.0f), aspect, 0.1f, 30.0f);    
+    GLKMatrix4 projectionMatrix = GLKMatrix4MakePerspective(GLKMathDegreesToRadians(95.0f), aspect, 0.1f, 30.0f);    
     effect.transform.projectionMatrix = projectionMatrix;
     
     glEnableVertexAttribArray(GLKVertexAttribPosition);        
@@ -127,8 +130,8 @@ static BOOL inline closeToZero(double testValue) {
 // set up the view matrix for a viewpoint animation
 - (void)render:(CADisplayLink*)displayLink {
     
-    float xIncomplete;
-    float zIncomplete;
+    float xIncomplete = 0.f;
+    float zIncomplete = 0.f;
 
     // maybe there's no move on
     if(!closeToZero(moveBegan)) {
@@ -237,8 +240,11 @@ static BOOL inline closeToZero(double testValue) {
             }
         }
     }
-    viewMatrix = GLKMatrix4MakeLookAt(xPosition + xIncomplete, 0, zPosition + zIncomplete,
-                                      xPosition + xIncomplete + lookAtX, 0, zPosition + zIncomplete + lookAtZ,
+    
+    NSLog(@"xPosition %f, zPosition %f", xPosition + xIncomplete, zPosition + zIncomplete);
+    
+    viewMatrix = GLKMatrix4MakeLookAt(xPosition + xIncomplete, yPosition, zPosition + zIncomplete,
+                                      xPosition + xIncomplete + lookAtX, yPosition, zPosition + zIncomplete + lookAtZ,
                                       0, 1, 0);
     [previewCellView display];
 }
@@ -349,20 +355,59 @@ static BOOL inline closeToZero(double testValue) {
     GLKMatrixStackRef stack = GLKMatrixStackCreate(kCFAllocatorDefault);
 
     NSArray *cells = [currentMap allCellsOrderedByTag];
-    for(Cell *cell in cells) 
-    {
+    
+    for(int i = 0; i < 525; i++) {
+        
+        Cell *cell = [cells objectAtIndex:i];
+        
         GLKMatrixStackPush(stack);
 
         int cellTag = [cell.tag intValue];
         float xPos = cellTag % kMapCellsHorizontal;
         float zPos = cellTag / kMapCellsHorizontal;
+
+        GLKMatrix4 positionedMatrix = GLKMatrix4Translate(viewMatrix, xPos, 0, zPos);
+
+        if([cell isOpen]) { // inside the cell walls must be visible
+            
+            // can walk in this cell so draw a floor
+            GLKMatrix4 floorMatrix = GLKMatrix4Translate(positionedMatrix, 0, 0, 1);
+            floorMatrix = GLKMatrix4RotateX(floorMatrix, -M_PI_2);
+            effect.transform.modelviewMatrix = floorMatrix;
+            [effect prepareToDraw];
+            glDrawElements(GL_TRIANGLES, sizeof(Indices)/sizeof(Indices[0]), GL_UNSIGNED_BYTE, 0);
+            
+            // and ceiling
+            GLKMatrix4 ceilingMatrix = GLKMatrix4Translate(positionedMatrix, 0, 1, 0);
+            ceilingMatrix = GLKMatrix4RotateX(ceilingMatrix, M_PI_2);
+            effect.transform.modelviewMatrix = ceilingMatrix;
+            [effect prepareToDraw];
+            glDrawElements(GL_TRIANGLES, sizeof(Indices)/sizeof(Indices[0]), GL_UNSIGNED_BYTE, 0);
+            
+        } else { // oustide the cell walls must be visible
+            
+            // can't walk in this cell so draw a closed cube - west wall
+            GLKMatrix4 westWallMatrix = GLKMatrix4RotateY(positionedMatrix, -M_PI_2);
+            effect.transform.modelviewMatrix = westWallMatrix;
+            [effect prepareToDraw];
+            glDrawElements(GL_TRIANGLES, sizeof(Indices)/sizeof(Indices[0]), GL_UNSIGNED_BYTE, 0);
+            
+            // north wall - rotate around Y
+            
+            // east wall
+            
+            // south wall - translate Z+
+            GLKMatrix4 southWallMatrix = GLKMatrix4Translate(positionedMatrix, 0, 0, 1);
+            effect.transform.modelviewMatrix = southWallMatrix;
+            [effect prepareToDraw];
+            glDrawElements(GL_TRIANGLES, sizeof(Indices)/sizeof(Indices[0]), GL_UNSIGNED_BYTE, 0);
+            
+        }
+
         
-        if(cellTag > 2)
-            break;
-        
+/*        
         // big arrays of cells draw fine but need to draw a cube appearing solid from the outside to
         // build the maze.
-        
         GLKMatrix4 positionedMatrix = GLKMatrix4Translate(viewMatrix, xPos, 0, zPos);
         
         // wall in front
@@ -375,7 +420,7 @@ static BOOL inline closeToZero(double testValue) {
         effect.transform.modelviewMatrix = rightWall;
         [effect prepareToDraw];
         glDrawElements(GL_TRIANGLES, sizeof(Indices)/sizeof(Indices[0]), GL_UNSIGNED_BYTE, 0);
-/*        
+
         // wall to left
         GLKMatrix4 leftWall = GLKMatrix4RotateY(positionedMatrix, M_PI_2);
         effect.transform.modelviewMatrix = leftWall;
@@ -618,9 +663,10 @@ static BOOL inline closeToZero(double testValue) {
         // position the preview camera "Mobile"
         [mapEditCamera setPosition:startTag facing:kDirectionNorth];
         
-        // record the current 3D position and view direction
-        xPosition = startTag % kMapCellsHorizontal;
-        zPosition = startTag / kMapCellsHorizontal;
+        // record the current 3D position and view direction, facing the centre of the inside of the cell
+        xPosition = startTag % kMapCellsHorizontal + 0.5;
+        yPosition = 0.5;
+        zPosition = startTag / kMapCellsHorizontal + 0.5;
         lookAtX = 0;
         lookAtZ = -1;
         
