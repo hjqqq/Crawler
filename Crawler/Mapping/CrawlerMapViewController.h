@@ -71,6 +71,7 @@ typedef enum _AnimationDirection {
     float _curRed;
     float _rotation;
     BOOL _increasing;
+    GLuint _depthBuffer;
     GLuint _vertexBuffer;
     GLuint _indexBuffer;
     GLKBaseEffect *effect;

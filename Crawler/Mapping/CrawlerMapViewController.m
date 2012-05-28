@@ -60,8 +60,13 @@ const GLubyte Indices[] = {
     previewCellView.context = glContext;
     [EAGLContext setCurrentContext:previewCellView.context];
 
-    //glEnable(GL_DEPTH_TEST);
+    if(previewCellView.drawableDepthFormat == GLKViewDrawableDepthFormat24)
+        NSLog(@"drawableDepthFormat is 24");
+    
     glEnable(GL_CULL_FACE);
+    
+    glEnable(GL_DEPTH_TEST);
+    glDepthFunc(GL_LEQUAL);
     
     glGenBuffers(1, &_vertexBuffer);
     glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer);
@@ -94,7 +99,7 @@ const GLubyte Indices[] = {
     [displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
     
     float aspect = fabsf(previewCellView.bounds.size.width / previewCellView.bounds.size.height);
-    GLKMatrix4 projectionMatrix = GLKMatrix4MakePerspective(GLKMathDegreesToRadians(95.0f), aspect, 0.1f, 30.0f);    
+    GLKMatrix4 projectionMatrix = GLKMatrix4MakePerspective(GLKMathDegreesToRadians(95.0f), aspect, 0.1, 30.0f);    
     effect.transform.projectionMatrix = projectionMatrix;
     
     glEnableVertexAttribArray(GLKVertexAttribPosition);        
@@ -241,8 +246,6 @@ static BOOL inline closeToZero(double testValue) {
         }
     }
     
-    NSLog(@"xPosition %f, zPosition %f", xPosition + xIncomplete, zPosition + zIncomplete);
-    
     viewMatrix = GLKMatrix4MakeLookAt(xPosition + xIncomplete, yPosition, zPosition + zIncomplete,
                                       xPosition + xIncomplete + lookAtX, yPosition, zPosition + zIncomplete + lookAtZ,
                                       0, 1, 0);
@@ -349,7 +352,7 @@ static BOOL inline closeToZero(double testValue) {
     [effect prepareToDraw];
     
     glClearColor(0.0, 0.0, 0.0, 1.0);
-    glClear(GL_COLOR_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glBindVertexArrayOES(_vertexArray);
 
     GLKMatrixStackRef stack = GLKMatrixStackCreate(kCFAllocatorDefault);
@@ -369,7 +372,7 @@ static BOOL inline closeToZero(double testValue) {
         GLKMatrix4 positionedMatrix = GLKMatrix4Translate(viewMatrix, xPos, 0, zPos);
 
         if([cell isOpen]) { // inside the cell walls must be visible
-            
+
             // can walk in this cell so draw a floor
             GLKMatrix4 floorMatrix = GLKMatrix4Translate(positionedMatrix, 0, 0, 1);
             floorMatrix = GLKMatrix4RotateX(floorMatrix, -M_PI_2);
@@ -383,69 +386,35 @@ static BOOL inline closeToZero(double testValue) {
             effect.transform.modelviewMatrix = ceilingMatrix;
             [effect prepareToDraw];
             glDrawElements(GL_TRIANGLES, sizeof(Indices)/sizeof(Indices[0]), GL_UNSIGNED_BYTE, 0);
-            
+
         } else { // oustide the cell walls must be visible
             
-            // can't walk in this cell so draw a closed cube - west wall
-            GLKMatrix4 westWallMatrix = GLKMatrix4RotateY(positionedMatrix, -M_PI_2);
-            effect.transform.modelviewMatrix = westWallMatrix;
+            // north wall - rotate M_PI around Y, translate X+
+            GLKMatrix4 northWallMatrix = GLKMatrix4Translate(positionedMatrix, 1, 0, 0);
+            northWallMatrix = GLKMatrix4RotateY(northWallMatrix, M_PI);
+            effect.transform.modelviewMatrix = northWallMatrix;
             [effect prepareToDraw];
             glDrawElements(GL_TRIANGLES, sizeof(Indices)/sizeof(Indices[0]), GL_UNSIGNED_BYTE, 0);
-            
-            // north wall - rotate around Y
-            
-            // east wall
-            
+
             // south wall - translate Z+
             GLKMatrix4 southWallMatrix = GLKMatrix4Translate(positionedMatrix, 0, 0, 1);
             effect.transform.modelviewMatrix = southWallMatrix;
             [effect prepareToDraw];
             glDrawElements(GL_TRIANGLES, sizeof(Indices)/sizeof(Indices[0]), GL_UNSIGNED_BYTE, 0);
-            
+
+            // east wall
+            GLKMatrix4 eastWallMatrix = GLKMatrix4Translate(positionedMatrix, 1, 0, 1);
+            eastWallMatrix = GLKMatrix4RotateY(eastWallMatrix, M_PI_2);
+            effect.transform.modelviewMatrix = eastWallMatrix;
+            [effect prepareToDraw];
+            glDrawElements(GL_TRIANGLES, sizeof(Indices)/sizeof(Indices[0]), GL_UNSIGNED_BYTE, 0);
+
+            // west wall
+            GLKMatrix4 westWallMatrix = GLKMatrix4RotateY(positionedMatrix, -M_PI_2);
+            effect.transform.modelviewMatrix = westWallMatrix;
+            [effect prepareToDraw];
+            glDrawElements(GL_TRIANGLES, sizeof(Indices)/sizeof(Indices[0]), GL_UNSIGNED_BYTE, 0);
         }
-
-        
-/*        
-        // big arrays of cells draw fine but need to draw a cube appearing solid from the outside to
-        // build the maze.
-        GLKMatrix4 positionedMatrix = GLKMatrix4Translate(viewMatrix, xPos, 0, zPos);
-        
-        // wall in front
-        effect.transform.modelviewMatrix = GLKMatrix4RotateY(positionedMatrix, M_PI);
-        [effect prepareToDraw];
-        glDrawElements(GL_TRIANGLES, sizeof(Indices)/sizeof(Indices[0]), GL_UNSIGNED_BYTE, 0);
-        
-        // wall to right
-        GLKMatrix4 rightWall = GLKMatrix4RotateY(positionedMatrix, -M_PI_2);
-        effect.transform.modelviewMatrix = rightWall;
-        [effect prepareToDraw];
-        glDrawElements(GL_TRIANGLES, sizeof(Indices)/sizeof(Indices[0]), GL_UNSIGNED_BYTE, 0);
-
-        // wall to left
-        GLKMatrix4 leftWall = GLKMatrix4RotateY(positionedMatrix, M_PI_2);
-        effect.transform.modelviewMatrix = leftWall;
-        [effect prepareToDraw];
-        glDrawElements(GL_TRIANGLES, sizeof(Indices)/sizeof(Indices[0]), GL_UNSIGNED_BYTE, 0);
-        
-        // floor
-        GLKMatrix4 floor = GLKMatrix4RotateX(positionedMatrix, -M_PI_2);
-        effect.transform.modelviewMatrix = floor;
-        [effect prepareToDraw];
-        glDrawElements(GL_TRIANGLES, sizeof(Indices)/sizeof(Indices[0]), GL_UNSIGNED_BYTE, 0);
-        
-        // ceiling
-        GLKMatrix4 ceiling = GLKMatrix4RotateX(positionedMatrix, M_PI_2);
-        effect.transform.modelviewMatrix = ceiling;
-        [effect prepareToDraw];
-        glDrawElements(GL_TRIANGLES, sizeof(Indices)/sizeof(Indices[0]), GL_UNSIGNED_BYTE, 0);
-        
-        // behind
-        GLKMatrix4 behind = GLKMatrix4Translate(positionedMatrix, 0, 0, -1);
-        behind = GLKMatrix4RotateX(behind, M_PI);
-        effect.transform.modelviewMatrix = behind;
-        [effect prepareToDraw];
-        glDrawElements(GL_TRIANGLES, sizeof(Indices)/sizeof(Indices[0]), GL_UNSIGNED_BYTE, 0);
-*/
         GLKMatrixStackPop(stack);
     }
 }
