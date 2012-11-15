@@ -25,8 +25,9 @@
 		66CF663A1540B674007C39E5 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 66CF66381540B674007C39E5 /* InfoPlist.strings */; };
 		66CF663C1540B674007C39E5 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 66CF663B1540B674007C39E5 /* main.m */; };
 		66CF66401540B674007C39E5 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 66CF663F1540B674007C39E5 /* AppDelegate.m */; };
-		66CF66431540B675007C39E5 /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 66CF66411540B675007C39E5 /* MainStoryboard.storyboard */; };
+		66CF66431540B675007C39E5 /* MainStoryboard_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 66CF66411540B675007C39E5 /* MainStoryboard_iPad.storyboard */; };
 		66CF66541540D655007C39E5 /* CrawlerMapView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66CF66531540D655007C39E5 /* CrawlerMapView.m */; };
+		66F0AD2316548EEC00D3D0A3 /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 66F0AD2116548EEC00D3D0A3 /* MainStoryboard_iPhone.storyboard */; };
 		66F3DF461544DF3500E997FE /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66F3DF451544DF3500E997FE /* QuartzCore.framework */; };
 		66F3DF491544DF3D00E997FE /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66F3DF481544DF3D00E997FE /* OpenGLES.framework */; };
 		66F3DF4B1544DF4400E997FE /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66F3DF4A1544DF4400E997FE /* GLKit.framework */; };
@@ -68,9 +69,10 @@
 		66CF663D1540B674007C39E5 /* Crawler-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Crawler-Prefix.pch"; sourceTree = "<group>"; };
 		66CF663E1540B674007C39E5 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		66CF663F1540B674007C39E5 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		66CF66421540B675007C39E5 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
+		66CF66421540B675007C39E5 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
 		66CF66521540D655007C39E5 /* CrawlerMapView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CrawlerMapView.h; path = Mapping/CrawlerMapView.h; sourceTree = "<group>"; };
 		66CF66531540D655007C39E5 /* CrawlerMapView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CrawlerMapView.m; path = Mapping/CrawlerMapView.m; sourceTree = "<group>"; };
+		66F0AD2216548EEC00D3D0A3 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
 		66F3DF451544DF3500E997FE /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		66F3DF481544DF3D00E997FE /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		66F3DF4A1544DF4400E997FE /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
@@ -167,9 +169,10 @@
 		66CF66351540B674007C39E5 /* Crawler */ = {
 			isa = PBXGroup;
 			children = (
+				66F0AD2116548EEC00D3D0A3 /* MainStoryboard_iPhone.storyboard */,
+				66CF66411540B675007C39E5 /* MainStoryboard_iPad.storyboard */,
 				661EEA9C1557D9B700593039 /* Mobiles */,
 				66392126154AC24C00822595 /* Resources */,
-				66CF66411540B675007C39E5 /* MainStoryboard.storyboard */,
 				668A690015412FBC00FED6F9 /* Core Data */,
 				66CF66551540D65A007C39E5 /* Mapping */,
 				66CF663E1540B674007C39E5 /* AppDelegate.h */,
@@ -257,8 +260,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				66CF663A1540B674007C39E5 /* InfoPlist.strings in Resources */,
-				66CF66431540B675007C39E5 /* MainStoryboard.storyboard in Resources */,
+				66CF66431540B675007C39E5 /* MainStoryboard_iPad.storyboard in Resources */,
 				66392128154AC25A00822595 /* tile_floor.png in Resources */,
+				66F0AD2316548EEC00D3D0A3 /* MainStoryboard_iPhone.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -296,12 +300,20 @@
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
-		66CF66411540B675007C39E5 /* MainStoryboard.storyboard */ = {
+		66CF66411540B675007C39E5 /* MainStoryboard_iPad.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				66CF66421540B675007C39E5 /* en */,
 			);
-			name = MainStoryboard.storyboard;
+			name = MainStoryboard_iPad.storyboard;
+			sourceTree = "<group>";
+		};
+		66F0AD2116548EEC00D3D0A3 /* MainStoryboard_iPhone.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				66F0AD2216548EEC00D3D0A3 /* en */,
+			);
+			name = MainStoryboard_iPhone.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -361,6 +373,7 @@
 				GCC_PREFIX_HEADER = "Crawler/Crawler-Prefix.pch";
 				INFOPLIST_FILE = "Crawler/Crawler-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -372,6 +385,7 @@
 				GCC_PREFIX_HEADER = "Crawler/Crawler-Prefix.pch";
 				INFOPLIST_FILE = "Crawler/Crawler-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

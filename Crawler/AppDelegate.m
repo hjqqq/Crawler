@@ -18,9 +18,12 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    CrawlerMapViewController *firstViewController = (CrawlerMapViewController*)self.window.rootViewController;
-    firstViewController.moc = self.managedObjectContext;
-
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        CrawlerMapViewController *firstViewController = (CrawlerMapViewController*)self.window.rootViewController;
+        firstViewController.moc = self.managedObjectContext;
+    } else {
+        // nothing special for iPhone, no Core Data
+    }
     return YES;
 }
 							
